@@ -44,7 +44,7 @@ spec:
   accessModes:
     - ReadOnlyMany 
   hostPath:
-    path: "/opt/dims/src"
+    path: "/opt/dims"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
