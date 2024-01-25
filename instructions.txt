@@ -1,0 +1,77 @@
+install.sh
+    clones DIMS_Automation to /opt/dims/src
+    Create persistent volumes/claims
+    Start the four deployments(nginx, dims, scheduler, mysql)
+
+PV: mysql-pv-volume, src-pv-volume, nginx-pv-volume
+PVC: mysql-pv-claim, src-pv-claim, nginx-pv-claim
+
+nginx:
+    volume : nginx-pv-volume
+    host : /opt/dims/src
+    file : nginx/default.conf  
+
+mysql:
+    volume: mysql-pv-claim
+    host: /opt/dims/mysqldata/
+    volume : src-pv-volume
+    host : /opt/dims/src  
+    subPath: automation/schema  -> ( will be mounted on /docker-entrypoint-initdb.d inside the pod)
+    Warning: scripts in /docker-entrypoint-initdb.d are only run if you start the container with a 
+            data directory that is empty.
+    initial script (automation/dims.sql): If dimsdb is NOT present create the dimsdb using script
+
+scheduler:
+    volume : src-pv-volume
+    host : /opt/dims/src
+    scheduler.py 
+        1. Base on jobinfo run the integrationa [ mdm/*py, network/*py, inventory/*py] 
+        2. Run load/*py
+        3. Update settings (zones_school, setting_labels)
+            IMPORTANT for a,b,c,d: only insert if not already there
+            a. Get distinct site_name from result_table and update insert in zones_school if not there
+                - insert into zones_school (school_name_in_tipweb, school_name_in_web, zone_id) 
+                        select distinct site_name, site_name, 1 from result_table;
+                - handle empty site_names rename them to "Unknown" in result_table and setting_labels
+            b. Get distinct distinct product_type from result_table and insert into setting_labels if not there
+                - insert into setting_labels ( setting_value, setting_type) 
+                        select distinct product_type, "DeviceType" from result_table where product_type <> '';
+            c. Get distinct distinct grade from result_table and insert into setting_labels if not there
+                - insert into setting_labels ( setting_value, setting_type) 
+                        select distinct grade, "grade" from result_table where grade <> '';
+            d. Get distinct distinct location from result_table and insert into setting_labels if not there
+                - insert into setting_labels ( setting_value, setting_type) 
+                        select distinct location, "role" from result_table where location <> '';
+            e. Run transfer
+        4. Monthly reports 
+            a. notification_missing_from_campus.py date 001/002 - run on 6th of every month for last month
+            b. devices_status_by_month.py sdate edate missing/oncampus - run on 1st and 2nd of every month for last month
+        5. Cronjobs
+            a. Daily_files_checking - Check is integrations CVS files are coming in. Not needed for API
+            b. Summary_report - Not Needed
+            c. Scenarios
+            d. Student_load - Only if we get daily students information like active / inactive
+            e. Database backup - Ankaiah/Uma list tables that we need the system to come back up ( not needed: mdmdata, tipweb, pidata, pidata_lastest)
+
+TODO:
+    1. Change load time from UI - Siva/Nirmala ( from new project settings UI)
+    2. Update Logo(dark/light) images from UI - Siva/Nirmala (from new project settings UI)
+    3. How to handle inactive students?
+    4. Usage module
+            a. average_monthly_bandwidth_per_student.py sdate edate 
+    5. uninstall.sh 
+        - Database backup with timestamp - - Ankaiah/Uma
+        - files backup - - Ankaiah/Uma
+    9. install.sh
+        - Ask for using existing database dump. Restore if user gives input - Ankaiah/Uma
+        - Manage API temp files. Inside pod( /data/backup/ -> pv ) - Ankaiah/Uma
+
+
+To run locally on Linux ( no Windows for now)
+1. Get a linux box ( EC2 - public IPaddress, Sercurity Group : allow port 80 )
+2. 3. wget --no-check-certificate https://raw.githubusercontent.com/SwensaGH/DIMS_Automation/main/automation/setup/uninstall.sh
+4. chmod +x install.sh
+5. chmod +x uninstall.sh
+6. ./install.sh
+7. Open browser and http://<public ip address>
+8. Configure the Integrations from UI

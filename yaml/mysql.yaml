@@ -1,0 +1,60 @@
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: mysql
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - image: mysql:5.7.4
+          name: mysql
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "250m"
+            limits:
+              memory: "4Gi"
+              cpu: "500m"
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: _GENERATE_PASSWORD_
+          ports:
+            - containerPort: 3306
+              name: mysql
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql
+            - name: src-persistent-storage
+              mountPath: /entrypoint.sh
+              subPath : schema/entrypoint.sh
+            - name: src-persistent-storage
+              mountPath: /dims.sql
+              subPath : schema/dims.sql
+      volumes:
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: mysql-pv-claim
+        - name: src-persistent-storage
+          persistentVolumeClaim:
+            claimName: src-pv-claim

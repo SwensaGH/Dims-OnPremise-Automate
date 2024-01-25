@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scheduler-deployment
+spec:
+  selector:
+    matchLabels:
+      app: scheduler
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: scheduler
+    spec:
+      containers:
+        - image: swensadocker/dims-scheduler:1.0.0-8
+          name: scheduler
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "500m"
+            limits:
+              memory: "4Gi"
+              cpu: "1000m"
+          env:
+            - name: DB_HOST
+              value: mysql
+            - name: DB_PORT
+              value: '3306'    
+            - name: DB_NAME
+              value: dimsdb
+            - name: DB_USER
+              value: root
+            - name: DB_PASS
+              value: _GENERATE_PASSWORD_           
+            - name: INTEGRATIONS
+              value: '07:00'                              
+

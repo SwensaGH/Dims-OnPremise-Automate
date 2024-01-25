@@ -1,0 +1,18 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: dims
+  namespace: default
+spec:
+  entryPoints:
+  - web
+  routes:
+  - kind: Rule
+    match: Host(`_IPADDRESS_`)
+    services:
+    - name: dims-service
+      namespace: default
+      port: 80
+
+
+

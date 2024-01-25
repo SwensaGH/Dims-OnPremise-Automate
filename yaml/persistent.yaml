@@ -1,0 +1,93 @@
+# --------------------------------------------------
+# Persistent Volumne Mysql
+# --------------------------------------------------
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: mysqlsc
+  capacity:
+    storage: 25Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/opt/dims/mysqldata"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+spec:
+  storageClassName: mysqlsc
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 25Gi
+---
+# --------------------------------------------------
+# Persistent Volume for Automation Source/Scripts
+# --------------------------------------------------
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: src-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: srcsc
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadOnlyMany 
+  hostPath:
+    path: "/opt/dims/src"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: src-pv-claim
+spec:
+  storageClassName: srcsc
+  accessModes:
+    - ReadOnlyMany 
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+# --------------------------------------------------
+# Persistent Volume nginx
+# --------------------------------------------------
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: nginx-pv-volume
+#   labels:
+#     type: local
+# spec:
+#   storageClassName: nginxsc
+#   capacity:
+#     storage: 10Mi
+#   accessModes:
+#     - ReadOnlyMany 
+#   hostPath:
+#     path: "/opt/dims/src/nginx"
+
+# ---
+
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: nginx-pv-claim
+# spec:
+#   storageClassName: nginxsc
+#   accessModes:
+#     - ReadOnlyMany 
+#   resources:
+#     requests:
+#       storage: 10Mi
+
