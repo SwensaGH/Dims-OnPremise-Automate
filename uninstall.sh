@@ -18,3 +18,6 @@ rm -rf dims
 cd
 rm -rf .kube
 echo "done"
+
+rm auto.sql
+rm temp_install_k3s.sh
