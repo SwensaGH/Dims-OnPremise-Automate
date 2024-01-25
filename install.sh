@@ -45,7 +45,7 @@ if [ $? -ne 0 ]; then
     exit -99
 fi
 
-mkdir -p ${BASE}/dims/src
+mkdir -p ${BASE}/dims
 git clone https://github.com/SwensaGH/Dims-OnPremise-Automate ${BASE}/dims >>$log 2>&1
 if [ $? -ne 0 ]; then
     echo "Error: git clone Dims_Onpremise_Automate failed" >>$log
