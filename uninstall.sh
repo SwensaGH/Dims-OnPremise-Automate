@@ -15,9 +15,9 @@ BASE=/opt
 cd $BASE
 rm -rf dims
 
-cd
-rm -rf .kube
+rm automation*.sql
+rm temp_install_k3s.sh
+rm -rf ~/.kube
 echo "done"
 
-rm auto.sql
-rm temp_install_k3s.sh
+
