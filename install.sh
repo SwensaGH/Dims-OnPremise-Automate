@@ -80,19 +80,19 @@ password=$(
     tr -dc A-Za-z0-9 </dev/urandom | head -c 13
     echo ''
 )
-sed -i -e "s/_GENERATE_PASSWORD_/${password}/g" ${BASE}/dims/src/yaml/mysql.yaml >>$log 2>&1
+sed -i -e "s/_GENERATE_PASSWORD_/${password}/g" ${BASE}/dims/yaml/mysql.yaml >>$log 2>&1
 if [ $? -ne 0 ]; then
     echo "Error: updating password failed" >>$log
     echo $err
     exit -6
 fi
-sed -i -e "s/_GENERATE_PASSWORD_/${password}/g" ${BASE}/dims/src/yaml/dims.yaml >>$log 2>&1
+sed -i -e "s/_GENERATE_PASSWORD_/${password}/g" ${BASE}/dims/yaml/dims.yaml >>$log 2>&1
 if [ $? -ne 0 ]; then
     echo "Error: updating password failed" >>$log
     echo $err
     exit -6
 fi
-sed -i -e "s/_GENERATE_PASSWORD_/${password}/g" ${BASE}/dims/src/yaml/scheduler.yaml >>$log 2>&1
+sed -i -e "s/_GENERATE_PASSWORD_/${password}/g" ${BASE}/dims/yaml/scheduler.yaml >>$log 2>&1
 if [ $? -ne 0 ]; then
     echo "Error: updating password failed" >>$log
     echo $err
@@ -101,7 +101,7 @@ fi
 
 echo "Starting services"
 echo "------------------------------------------"
-kubectl apply -f ${BASE}/dims/src/yaml/persistent.yaml >>$log 2>&1
+kubectl apply -f ${BASE}/dims/yaml/persistent.yaml >>$log 2>&1
 if [ $? -ne 0 ]; then
     echo "Error: persistent.yaml failed" >>$log
     echo $err
@@ -109,21 +109,21 @@ if [ $? -ne 0 ]; then
 fi
 
 
-kubectl apply -f ${BASE}/dims/src/yaml/mysql.yaml >>$log 2>&1
+kubectl apply -f ${BASE}/dims/yaml/mysql.yaml >>$log 2>&1
 if [ $? -ne 0 ]; then
     echo "Error: mysql.yaml failed" >>$log
     echo $err
     exit -9
 fi
 
-kubectl apply -f ${BASE}/dims/src/yaml/dims.yaml >>$log 2>&1
+kubectl apply -f ${BASE}/dims/yaml/dims.yaml >>$log 2>&1
 if [ $? -ne 0 ]; then
     echo "Error: dims.yaml failed" >>$log
     echo $err
     exit -10
 fi
 
-kubectl apply -f ${BASE}/dims/src/yaml/scheduler.yaml >>$log 2>&1
+kubectl apply -f ${BASE}/dims/yaml/scheduler.yaml >>$log 2>&1
 if [ $? -ne 0 ]; then
     echo "Error: dims.yaml failed" >>$log
     echo $err
@@ -131,13 +131,13 @@ if [ $? -ne 0 ]; then
 fi
 
 ip=$(ifconfig | grep inet | grep -v inet6 | awk '{print $2}' | grep -v "\.1$" | grep -v "\.0$")
-sed -i -e "s/_IPADDRESS_/${ip}/g" ${BASE}/dims/src/yaml/traefik.yaml >>$log 2>&1
+sed -i -e "s/_IPADDRESS_/${ip}/g" ${BASE}/dims/yaml/traefik.yaml >>$log 2>&1
 if [ $? -ne 0 ]; then
     echo "Error: updating IP failed" >>$log
     echo $err
     exit -12
 fi
-kubectl apply -f ${BASE}/dims/src/yaml/traefik.yaml >>$log 2>&1
+kubectl apply -f ${BASE}/dims/yaml/traefik.yaml >>$log 2>&1
 
 #---------------------------------------------------
 echo "Waiting for services to come up"
