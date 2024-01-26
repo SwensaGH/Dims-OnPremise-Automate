@@ -44,7 +44,7 @@ spec:
   accessModes:
     - ReadOnlyMany 
   hostPath:
-    path: "/opt/dims"
+    path: "/opt/dims/schema"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -57,37 +57,4 @@ spec:
   resources:
     requests:
       storage: 1Gi
-
----
-# --------------------------------------------------
-# Persistent Volume nginx
-# --------------------------------------------------
-# apiVersion: v1
-# kind: PersistentVolume
-# metadata:
-#   name: nginx-pv-volume
-#   labels:
-#     type: local
-# spec:
-#   storageClassName: nginxsc
-#   capacity:
-#     storage: 10Mi
-#   accessModes:
-#     - ReadOnlyMany 
-#   hostPath:
-#     path: "/opt/dims/src/nginx"
-
-# ---
-
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: nginx-pv-claim
-# spec:
-#   storageClassName: nginxsc
-#   accessModes:
-#     - ReadOnlyMany 
-#   resources:
-#     requests:
-#       storage: 10Mi
 

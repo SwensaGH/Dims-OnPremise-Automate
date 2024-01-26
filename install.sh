@@ -53,6 +53,8 @@ if [ $? -ne 0 ]; then
     exit -4
 fi
 
+chmod +x /opt/dims/schema/entrypoint.sh
+
 echo "Preparing data"
 echo "------------------------------------------"
 mkdir -p ${BASE}/dims/mysqldata >>$log 2>&1

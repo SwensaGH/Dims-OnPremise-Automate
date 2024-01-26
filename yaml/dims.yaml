@@ -47,11 +47,4 @@ spec:
           ports:
             - containerPort: 3333
               name: dims
-          volumeMounts:
-            - name: ngnix-conf-location
-              mountPath: /etc/nginx/conf.d
-      volumes:
-        - name: ngnix-conf-location
-          persistentVolumeClaim:
-            claimName: nginx-pv-claim
 

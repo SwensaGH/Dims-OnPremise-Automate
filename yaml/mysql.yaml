@@ -47,10 +47,10 @@ spec:
               mountPath: /var/lib/mysql
             - name: src-persistent-storage
               mountPath: /entrypoint.sh
-              subPath : schema/entrypoint.sh
+              subPath : entrypoint.sh
             - name: src-persistent-storage
               mountPath: /dims.sql
-              subPath : schema/dims.sql
+              subPath : dims.sql
       volumes:
         - name: mysql-persistent-storage
           persistentVolumeClaim:
