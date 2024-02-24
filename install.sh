@@ -122,13 +122,13 @@ sleep 10
 
 echo "getting latest version of DIMS"
 echo "------------------------------------------"
-#dimsimage = <Get the latest image>
-#sed -i -e "s/_DIMSIMAGE_/${dimsimage}/g" ${BASE}/dims/yaml/dims.yaml >>$log 2>&1
-#if [ $? -ne 0 ]; then
-#    echo "Error: updating _DIMSIMAGE_ failed" >>$log
-#    echo $err
-#    exit -10
-#fi
+dimsimage=1.0.0-dev-168 #<Get the latest image>
+sed -i -e "s/_DIMSIMAGE_/${dimsimage}/g" ${BASE}/dims/yaml/dims.yaml >>$log 2>&1
+if [ $? -ne 0 ]; then
+   echo "Error: updating _DIMSIMAGE_ failed" >>$log
+   echo $err
+   exit -10
+fi
 
 kubectl apply -f ${BASE}/dims/yaml/dims.yaml >>$log 2>&1
 if [ $? -ne 0 ]; then
