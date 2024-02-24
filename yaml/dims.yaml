@@ -44,7 +44,7 @@ spec:
             value: _GENERATE_PASSWORD_
           - name: AUTH_TYPE
             value: local
-          - name: SCHEDULER
+          - name: SCHEDULER_URL
             value: scheduler
           ports:
             - containerPort: 3333
