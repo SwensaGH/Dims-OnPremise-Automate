@@ -26,7 +26,7 @@ spec:
         app: dims
     spec:
       containers:
-        - image: swensadocker/_DIMSIMAGE_
+        - image: swensadocker/dims:_DIMSIMAGE_
           name: dims
           resources:
             requests:
