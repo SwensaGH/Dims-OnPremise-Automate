@@ -180,7 +180,7 @@ done
 
 echo
 
-http_response=$(curl -s -X 'POST' "http://$ip/auth/registerrr" \
+http_response=$(curl -s -X 'POST' "http://$ip/auth/registerrrr" \
     -H 'accept: */*' -H 'Content-Type: application/json' \
     -d '{ "email": "'$email'", "password" : "'$password'", "firstname": "Dims", "lastname": "Admin", "roleId": [ 1 ] }')
 
