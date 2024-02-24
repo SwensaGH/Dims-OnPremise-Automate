@@ -151,7 +151,7 @@ if [ $? -ne 0 ]; then
     echo $err
     exit -13
 fi
-kubectl apply -f ${BASE}/dims/yaml/traefik.yaml >>$log 2>&1
+#kubectl apply -f ${BASE}/dims/yaml/traefik.yaml >>$log 2>&1
 
 #---------------------------------------------------
 echo "Waiting for services to come up"
@@ -180,7 +180,7 @@ done
 
 echo
 
-http_response=$(curl -s -X 'POST' "http://$ip/auth/registerrrr" \
+http_response=$(curl -s -X 'POST' "http://$ip/auth/registerrr" \
     -H 'accept: */*' -H 'Content-Type: application/json' \
     -d '{ "email": "'$email'", "password" : "'$password'", "firstname": "Dims", "lastname": "Admin", "roleId": [ 1 ] }')
 

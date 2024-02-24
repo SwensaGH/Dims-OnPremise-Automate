@@ -44,6 +44,8 @@ spec:
             value: _GENERATE_PASSWORD_
           - name: AUTH_TYPE
             value: local
+          - name: SCHEDULER
+            value: scheduler
           ports:
             - containerPort: 3333
               name: dims
