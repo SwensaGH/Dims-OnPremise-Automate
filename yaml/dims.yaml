@@ -45,7 +45,7 @@ spec:
           - name: AUTH_TYPE
             value: local
           - name: SCHEDULER_URL
-            value: scheduler_service
+            value: scheduler-service
           ports:
             - containerPort: 3333
               name: dims
