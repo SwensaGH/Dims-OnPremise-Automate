@@ -49,4 +49,6 @@ spec:
               value: _GENERATE_PASSWORD_           
             - name: INTEGRATIONS
               value: '07:00'                              
-
+          ports:
+            - containerPort: 5000
+              name: scheduler
