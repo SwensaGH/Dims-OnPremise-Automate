@@ -54,4 +54,6 @@ spec:
             - name: DNACRUN
               value: "23:55"    
             - name: ISEDNAC_BACK_DAYS
-              value: 1                            
+              value: 1          
+            - name: ISEDNAC_CHECK_INTERVAL
+              value: 5                    
