@@ -48,5 +48,10 @@ spec:
             - name: DB_PASS
               value: _GENERATE_PASSWORD_           
             - name: INTEGRATIONS
-              value: '07:00'                              
-          
+              value: '07:00'      
+            - name: ISERUN
+              value: 60   
+            - name: DNACRUN
+              value: "23:55"    
+            - name: ISEDNAC_BACK_DAYS
+              value: 1                            
