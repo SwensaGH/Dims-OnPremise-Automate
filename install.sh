@@ -110,6 +110,7 @@ if [ $? -ne 0 ]; then
     exit -7
 fi
 
+kubectl create configmap mysql-config --from-file=${BASE}/dims/yaml/my.cnf
 
 kubectl apply -f ${BASE}/dims/yaml/mysql.yaml >>$log 2>&1
 if [ $? -ne 0 ]; then

@@ -51,6 +51,8 @@ spec:
             - name: src-persistent-storage
               mountPath: /dims.sql
               subPath : dims.sql
+            - name: config-volume
+              mountPath: /etc/mysql/
       volumes:
         - name: mysql-persistent-storage
           persistentVolumeClaim:
@@ -58,3 +60,7 @@ spec:
         - name: src-persistent-storage
           persistentVolumeClaim:
             claimName: src-pv-claim
+        - name: config-volume
+          configMap:
+            name: mysql-config
+            optional: true
