@@ -48,12 +48,12 @@ spec:
             - name: DB_PASS
               value: _GENERATE_PASSWORD_           
             - name: INTEGRATIONS
-              value: '07:00'      
+              value: '01:00'      
             - name: ISERUN
-              value: 60   
+              value: "60" 
             - name: DNACRUN
               value: "23:55"    
             - name: ISEDNAC_BACK_DAYS
-              value: 1          
+              value: "1"      
             - name: ISEDNAC_CHECK_INTERVAL
-              value: 5                    
+              value: "5"                    
