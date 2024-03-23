@@ -16,7 +16,7 @@ cd $BASE
 rm -rf dims
 
 rm automation*.sql
-rm temp_install_k3s.sh
+rm /tmp/temp_install_k3s.sh
 rm -rf ~/.kube
 echo "done"
 
