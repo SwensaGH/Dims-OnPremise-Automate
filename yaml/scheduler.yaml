@@ -27,7 +27,7 @@ spec:
         app: scheduler
     spec:
       containers:
-        - image: swensadocker/dims-scheduler:1.0.0-13
+        - image: swensadocker/dims-scheduler:1.0.0-15
           name: scheduler
           resources:
             requests:
