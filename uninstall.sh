@@ -9,14 +9,12 @@ kubectl exec -it $(kubectl get pods | grep mysql) -- mysqldump  -u root -p$p  di
 echo "Uninstalling DIMS application"
 /usr/local/bin/k3s-uninstall.sh > /dev/null 2>&1
 
-
+rm ./temp_install_k3s.sh
 BASE=/opt
 
 cd $BASE
 rm -rf dims
-
 rm automation*.sql
-rm ./temp_install_k3s.sh
 rm -rf ~/.kube
 echo "done"
 
