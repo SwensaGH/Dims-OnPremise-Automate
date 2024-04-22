@@ -54,7 +54,7 @@ spec:
           ports:
             - containerPort: 5000
               name: scheduler
-          volumeMount:
+          volumeMounts:
             - name: scheduler-persistent-storage
               mountPath: /backup/
       volumes:
