@@ -58,3 +58,33 @@ spec:
     requests:
       storage: 1Gi
 
+---
+# --------------------------------------------------
+# Persistent Volume for Scheduler
+# --------------------------------------------------
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: scheduler-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: schedulersc
+  capacity:
+    storage: 25Gi
+  accessModes:
+    - ReadOnlyMany 
+  hostPath:
+    path: "/opt/dims/scheduler_backup"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: scheduler-pv-claim
+spec:
+  storageClassName: schedulersc
+  accessModes:
+    - ReadOnlyMany 
+  resources:
+    requests:
+      storage: 25Gi

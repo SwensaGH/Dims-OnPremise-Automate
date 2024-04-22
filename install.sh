@@ -152,7 +152,7 @@ if [ $? -ne 0 ]; then
     echo $err
     exit -13
 fi
-#kubectl apply -f ${BASE}/dims/yaml/traefik.yaml >>$log 2>&1
+kubectl apply -f ${BASE}/dims/yaml/traefik.yaml >>$log 2>&1
 
 #---------------------------------------------------
 echo "Waiting for services to come up"
