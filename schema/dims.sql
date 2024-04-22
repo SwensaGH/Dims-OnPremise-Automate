@@ -53,37 +53,6 @@ CREATE TABLE `administrators` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `allowed`
---
-
-DROP TABLE IF EXISTS `allowed`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `allowed` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `category` varchar(255) DEFAULT NULL,
-  `new_category` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `ankdates`
---
-
-DROP TABLE IF EXISTS `ankdates`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ankdates` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `calendar_date` datetime(6) DEFAULT NULL,
-  `date_description` varchar(255) DEFAULT NULL,
-  `day_type` int(11) DEFAULT NULL,
-  `holiday_description` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=367 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `asset_table`
