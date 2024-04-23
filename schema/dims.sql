@@ -414,7 +414,7 @@ CREATE TABLE `pidata_latest` (
   `map_location` text,
   `source` varchar(50) NOT NULL,
   `loaddate` date NOT NULL,
-  PRIMARY KEY (`loaddate`,`client_mac_address`)
+  PRIMARY KEY (`loaddate`,`client_mac_address`(255))
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
