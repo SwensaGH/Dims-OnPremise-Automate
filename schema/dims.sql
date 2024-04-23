@@ -430,7 +430,6 @@ CREATE TABLE `project_settings` (
   `settings_key` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
   `jsondata` text,
-  `image_date` longblob,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
