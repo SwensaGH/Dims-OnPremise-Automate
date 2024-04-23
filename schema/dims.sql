@@ -311,7 +311,6 @@ CREATE TABLE `mdmdata` (
   `user_name` varchar(50) DEFAULT NULL,
   `grade` varchar(50) DEFAULT NULL,
   `position` varchar(50) DEFAULT NULL,
-
   KEY `last_check_in_index` (`last_check_in`),
   KEY `mac_address_index` (`mac_address`),
   KEY `serial_number_index` (`serial_number`),
@@ -415,6 +414,7 @@ CREATE TABLE `pidata_latest` (
   `map_location` text,
   `source` varchar(50) NOT NULL,
   `loaddate` date NOT NULL,
+  PRIMARY KEY (`loaddate`,`client_mac_address`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
