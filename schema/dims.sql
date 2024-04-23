@@ -306,6 +306,12 @@ CREATE TABLE `mdmdata` (
   `serial_number` varchar(500) DEFAULT NULL,
   `ip_address` varchar(500) DEFAULT NULL,
   `manufacturer` varchar(45) DEFAULT NULL,
+  `source` varchar(50) NOT NULL,
+  `loaddate` date NOT NULL,
+  `user_name` varchar(50) DEFAULT NULL,
+  `grade` varchar(50) DEFAULT NULL,
+  `position` varchar(50) DEFAULT NULL,
+
   KEY `last_check_in_index` (`last_check_in`),
   KEY `mac_address_index` (`mac_address`),
   KEY `serial_number_index` (`serial_number`),
@@ -406,7 +412,10 @@ CREATE TABLE `pidata_latest` (
   `ssid` text,
   `protocol` text,
   `session_duration` text,
-  `map_location` text
+  `map_location` text,
+  `source` varchar(50) NOT NULL,
+  `loaddate` date NOT NULL,
+
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -422,6 +431,7 @@ CREATE TABLE `project_settings` (
   `settings_key` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
   `jsondata` text,
+  `image_date` longblob,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -483,6 +493,8 @@ CREATE TABLE `result_table` (
   `name` varchar(255) DEFAULT NULL,
   `device_days_old` int(11) DEFAULT NULL,
   `transfer` varchar(255) DEFAULT NULL,
+  `calc_mdm` int(11) DEFAULT '0',
+  `calc_network` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `date_index` (`date`),
   KEY `mac_address_index` (`mac_address`),
@@ -550,6 +562,20 @@ CREATE TABLE `scenarios` (
 ) ENGINE=InnoDB AUTO_INCREMENT=751 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Table structure for table `setting_labels`
+--
+DROP TABLE IF EXISTS `setting_labels`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `setting_labels` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `setting_type` varchar(255) DEFAULT NULL,
+  `setting_value` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UKk1c0klvoy97tacl2pfc6ob7r8` (`setting_type`,`setting_value`)
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 --
 -- Table structure for table `six_columns_student`
 --
@@ -664,6 +690,8 @@ CREATE TABLE `tipweb` (
   `site_name` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
   `tag` varchar(255) DEFAULT NULL,
+  `source` varchar(50) NOT NULL,
+  `loaddate` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `serialIndex` (`serial`)
 ) ENGINE=InnoDB AUTO_INCREMENT=111231 DEFAULT CHARSET=latin1;
