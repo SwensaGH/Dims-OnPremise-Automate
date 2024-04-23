@@ -430,6 +430,7 @@ CREATE TABLE `project_settings` (
   `settings_key` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
   `jsondata` text,
+  `image_date` longblob,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -889,7 +890,7 @@ CREATE TABLE `zones_school` (
 ) ENGINE=InnoDB AUTO_INCREMENT=214 DEFAULT CHARSET=latin1;
 
 
-INSERT INTO `project_settings` VALUES (1,'dashboard_usage','0',NULL),(2,'dashboard_monthly_notification','0',NULL),(3,'dashboard_average_age','0',NULL),(4,'logo_light','lisd_light.png',NULL),(5,'logo_dark','lisd_dark.png',NULL),(6,'dashboard_daily_notification','0',NULL),(7,'Authentication','local','{\"url\": \"ldap://lisd-dc1.lisd.local:389\",\"domain\": \"lisd.local\" }'),(8,'SSL','1','');
+INSERT INTO `project_settings`    VALUES (1,'dashboard_usage','0',NULL,NULL),(2,'dashboard_monthly_notification','0',NULL,NULL),(3,'dashboard_average_age','0',NULL,NULL),(4,'logo_light','lisd_light.png',NULL,NULL),(5,'logo_dark','lisd_dark.png',NULL,NULL),(6,'dashboard_daily_notification','0',NULL,NULL),(7,'Authentication','local','{\"url\": \"ldap://lisd-dc1.lisd.local:389\",\"domain\": \"lisd.local\" }',NULL),(8,'SSL','1','',NULL);
 
 INSERT INTO `role` VALUES (1,'Admin','Admin');
 
