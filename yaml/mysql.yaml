@@ -27,7 +27,7 @@ spec:
         app: mysql
     spec:
       containers:
-        - image: mysql
+        - image: mysql:5.7.4
           name: mysql
           resources:
             requests:
