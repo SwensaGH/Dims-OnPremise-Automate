@@ -4,6 +4,7 @@ echo "Backuping up database"
 
 p=`cat /opt/dims/yaml/mysql.yaml | grep value | awk '{print $2}'`
 dd=`date +%Y-%b-%d`
+echo " dims database dump is copying to  /opt/automation_dimsdb_dump_$dd.sql"
 kubectl exec -it $(kubectl get pods | grep mysql) -- mysqldump  -u root -p$p  dimsdb > /opt/automation_dimsdb_dump_$dd.sql
 
 echo "Uninstalling DIMS application"
