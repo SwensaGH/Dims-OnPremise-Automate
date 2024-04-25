@@ -14,7 +14,7 @@ BASE=/opt
 
 cd $BASE
 rm -rf dims
-rm automation*.sql
+#rm automation*.sql
 rm -rf ~/.kube
 echo "done"
 
