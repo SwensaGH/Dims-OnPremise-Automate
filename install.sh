@@ -152,6 +152,7 @@ if [ $? -ne 0 ]; then
     echo $err
     exit -13
 fi
+sleep 20
 kubectl apply -f ${BASE}/dims/yaml/traefik.yaml >>$log 2>&1
 
 #---------------------------------------------------
