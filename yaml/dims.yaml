@@ -25,6 +25,7 @@ spec:
       labels:
         app: dims
     spec:
+      serviceAccountName: dims-service-account  # Add the ServiceAccount
       containers:
         - image: swensadocker/dims:_DIMSIMAGE_
           name: dims
