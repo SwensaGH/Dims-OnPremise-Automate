@@ -20,7 +20,7 @@ rules:
   verbs: ["patch", "get", "list", "watch", "create", "update", "delete"]
 - apiGroups: ["apps"]  # Apps API group for deployments
   resources: ["deployments"]
-  verbs: ["create", "list", "watch", "update"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
 - apiGroups: ["apps"]  # To handle rollout of deployments
   resources: ["deployments/scale"]  # Allows scaling operations which can be part of a rollout
   verbs: ["update"]
