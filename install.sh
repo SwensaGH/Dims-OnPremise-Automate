@@ -131,18 +131,36 @@ if [ $? -ne 0 ]; then
    exit -10
 fi
 
+kubectl apply -f ${BASE}/dims/yaml/dims-cluster-role.yaml >>$log 2>&1
+if [ $? -ne 0 ]; then
+    echo "Error: dims-cluster-role.yaml failed" >>$log
+    echo $err
+    exit -11
+fi
+kubectl apply -f ${BASE}/dims/yaml/dims-cluster-role-binding.yaml >>$log 2>&1
+if [ $? -ne 0 ]; then
+    echo "Error: dims-cluster-role-binding.yaml failed" >>$log
+    echo $err
+    exit -12
+fi
+kubectl apply -f ${BASE}/dims/yaml/dims-service-account.yaml >>$log 2>&1
+if [ $? -ne 0 ]; then
+    echo "Error: dims-service-account.yaml failed" >>$log
+    echo $err
+    exit -13
+fi
 kubectl apply -f ${BASE}/dims/yaml/dims.yaml >>$log 2>&1
 if [ $? -ne 0 ]; then
     echo "Error: dims.yaml failed" >>$log
     echo $err
-    exit -11
+    exit -14
 fi
 
 kubectl apply -f ${BASE}/dims/yaml/scheduler.yaml >>$log 2>&1
 if [ $? -ne 0 ]; then
     echo "Error: dims.yaml failed" >>$log
     echo $err
-    exit -12
+    exit -15
 fi
 
 ip=$(ifconfig | grep inet | grep -v inet6 | awk '{print $2}' | grep -v "\.1$" | grep -v "\.0$")
@@ -150,7 +168,7 @@ sed -i -e "s/_IPADDRESS_/${ip}/g" ${BASE}/dims/yaml/traefik.yaml >>$log 2>&1
 if [ $? -ne 0 ]; then
     echo "Error: updating IP failed" >>$log
     echo $err
-    exit -13
+    exit -16
 fi
 sleep 20
 kubectl apply -f ${BASE}/dims/yaml/traefik.yaml >>$log 2>&1
@@ -195,5 +213,5 @@ if [[ "$http_response" == *"User registered successfully"* ]]; then
     echo "---------------------------------------------------------"
 else
     echo "Something went wrong. Could not create Dims Admin user. Please contact dims.swensa.com"
-    exit -14
+    exit -17
 fi
