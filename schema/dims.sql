@@ -907,4 +907,4 @@ INSERT INTO `integrations` VALUES (1,'Incident IQ Inventory','INVENTORY','Incide
 
 -- INSERT INTO `setting_labels` VALUES (26,'deviceType','Chromebook'),(24,'deviceType','DESKTOP-APPLE'),(27,'deviceType','DESKTOP-WINDOWS'),(22,'deviceType','IPAD'),(25,'deviceType','LAPTOPS-APPLE'),(28,'deviceType','LAPTOPS-WINDOWS'),(23,'deviceType','TV-APPLE'),(9,'grade','01'),(10,'grade','02'),(11,'grade','03'),(12,'grade','04'),(13,'grade','05'),(14,'grade','06'),(15,'grade','07'),(16,'grade','08'),(17,'grade','09'),(18,'grade','10'),(19,'grade','11'),(20,'grade','12'),(21,'grade','GD'),(8,'grade','KG'),(5,'grade','P2'),(6,'grade','P3'),(7,'grade','P4'),(3,'role','Room'),(1,'role','Staff'),(2,'role','Student'),(4,'role','Transfer');
 
-
+alter table asset_tag add constraint bluetooth_tag unique (bluetooth_tag);
