@@ -18,7 +18,7 @@ metadata:
 spec:
   storageClassName: mysqlsc
   capacity:
-    storage: 25Gi
+    storage: 50Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
