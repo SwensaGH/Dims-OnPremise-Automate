@@ -903,7 +903,7 @@ INSERT INTO `zones` VALUES (1,'All');
 -- insert into user_role (userid,roleid) values (1,1);
 -- SET FOREIGN_KEY_CHECKS = 1;
 
-INSERT INTO `integrations` VALUES (1,'Incident IQ Inventory','INVENTORY','Incident IQ','INCIDENTIQ'),(2,'Inventory','INVENTORY','TipWeb','TIPWEB'),(3,'Ipads and MacBooks','MDM','JAMF','JAMF'),(4,'Chromebooks','MDM','Google','GOOGLE'),(5,'Windows','MDM','Microsoft','INTUNE'),(6,'Meraki Controller','MDM','Cisco Meraki','Meraki'),(7,'WL Controller','NETWORK','Cisco WLC','WLC'),(8,'Meraki Controller','NETWORK','Cisco Meraki','Meraki');
+INSERT INTO `integrations` VALUES (1,'Incident IQ Inventory','INVENTORY','Incident IQ','INCIDENTIQ'),(2,'Inventory','INVENTORY','TipWeb','TIPWEB'),(3,'Ipads and MacBooks','MDM','JAMF','JAMF'),(4,'Chromebooks','MDM','Google','GOOGLE'),(5,'Windows','MDM','Microsoft','INTUNE'),(6,'Meraki Controller','MDM','Cisco Meraki','MDM_MERAKI'),(7,'WL Controller','NETWORK','Cisco WLC','WLC'),(8,'Meraki Controller','NETWORK','Cisco Meraki','NETWORK_MERAKI');
 
 -- INSERT INTO `setting_labels` VALUES (26,'deviceType','Chromebook'),(24,'deviceType','DESKTOP-APPLE'),(27,'deviceType','DESKTOP-WINDOWS'),(22,'deviceType','IPAD'),(25,'deviceType','LAPTOPS-APPLE'),(28,'deviceType','LAPTOPS-WINDOWS'),(23,'deviceType','TV-APPLE'),(9,'grade','01'),(10,'grade','02'),(11,'grade','03'),(12,'grade','04'),(13,'grade','05'),(14,'grade','06'),(15,'grade','07'),(16,'grade','08'),(17,'grade','09'),(18,'grade','10'),(19,'grade','11'),(20,'grade','12'),(21,'grade','GD'),(8,'grade','KG'),(5,'grade','P2'),(6,'grade','P3'),(7,'grade','P4'),(3,'role','Room'),(1,'role','Staff'),(2,'role','Student'),(4,'role','Transfer');
 
