@@ -18,7 +18,7 @@ metadata:
 spec:
   storageClassName: mysqlsc
   capacity:
-    storage: 50Gi
+    storage: 10Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
@@ -34,7 +34,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 25Gi
+      storage: 10Gi
 ---
 # --------------------------------------------------
 # Persistent Volume for Automation Source/Scripts
@@ -48,7 +48,7 @@ metadata:
 spec:
   storageClassName: srcsc
   capacity:
-    storage: 25Gi
+    storage: 10Gi
   accessModes:
     - ReadOnlyMany 
   hostPath:
@@ -64,7 +64,7 @@ spec:
     - ReadOnlyMany 
   resources:
     requests:
-      storage: 25Gi
+      storage: 10Gi
 
 ---
 # --------------------------------------------------
@@ -79,7 +79,7 @@ metadata:
 spec:
   storageClassName: schedulersc
   capacity:
-    storage: 25Gi
+    storage: 10Gi
   accessModes:
     - ReadOnlyMany 
   hostPath:
@@ -95,4 +95,4 @@ spec:
     - ReadOnlyMany 
   resources:
     requests:
-      storage: 25Gi
+      storage: 10Gi
