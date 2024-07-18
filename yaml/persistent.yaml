@@ -48,7 +48,7 @@ metadata:
 spec:
   storageClassName: srcsc
   capacity:
-    storage: 1Gi
+    storage: 25Gi
   accessModes:
     - ReadOnlyMany 
   hostPath:
@@ -64,7 +64,7 @@ spec:
     - ReadOnlyMany 
   resources:
     requests:
-      storage: 1Gi
+      storage: 25Gi
 
 ---
 # --------------------------------------------------
