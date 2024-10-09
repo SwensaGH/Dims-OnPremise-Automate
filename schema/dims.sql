@@ -1533,24 +1533,27 @@ CREATE TABLE `setting_labels` (
   UNIQUE KEY `UKk1c0klvoy97tacl2pfc6ob7r8` (`setting_type`,`setting_value`)
 ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
---
--- Table structure for table `six_columns_student`
---
 
-DROP TABLE IF EXISTS `six_columns_student`;
+
+
+--
+-- Table structure for table `storage`
+--
+DROP TABLE IF EXISTS `storage`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `six_columns_student` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `cell_internet` varchar(255) DEFAULT NULL,
-  `home_internet` varchar(255) DEFAULT NULL,
-  `ipad_opt_in_out` varchar(255) DEFAULT NULL,
-  `last_update` varchar(255) DEFAULT NULL,
-  `status` varchar(255) DEFAULT NULL,
-  `student_id` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=113784 DEFAULT CHARSET=latin1;
+CREATE TABLE `storage` (
+  `id` bigint(20) NOT NULL,
+  `asset` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `school_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKsi1moniwvv1ooat4easrubupq` (`school_id`),
+  CONSTRAINT `FKsi1moniwvv1ooat4easrubupq` FOREIGN KEY (`school_id`) REFERENCES `zones_school` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+
 
 --
 -- Table structure for table `student`
@@ -1585,6 +1588,81 @@ CREATE TABLE `student` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=57031 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `student_and_staff_for_inventory`
+--
+DROP TABLE IF EXISTS `student_and_staff_for_inventory`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `student_and_staff_for_inventory` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `grade` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `parent_name` varchar(255) DEFAULT NULL,
+  `staff_id` varchar(255) DEFAULT NULL,
+  `status` bit(1) DEFAULT NULL,
+  `student_id` varchar(255) DEFAULT NULL,
+  `department_dept_id` bigint(20) DEFAULT NULL,
+  `school_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKqnchsg5gn0769udhlfqg37xt2` (`department_dept_id`),
+  KEY `FKpmvt4kaesw70g9hida3it8a28` (`school_id`),
+  CONSTRAINT `FKpmvt4kaesw70g9hida3it8a28` FOREIGN KEY (`school_id`) REFERENCES `zones_school` (`id`),
+  CONSTRAINT `FKqnchsg5gn0769udhlfqg37xt2` FOREIGN KEY (`department_dept_id`) REFERENCES `department` (`dept_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tag`
+--
+DROP TABLE IF EXISTS `tag`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tag` (
+  `tag_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`tag_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+--
+-- Table structure for table `team`
+--
+DROP TABLE IF EXISTS `team`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `team` (
+  `team_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `description` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`team_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `team_members`
+--
+DROP TABLE IF EXISTS `team_members`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `team_members` (
+  `team_member_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `team_team_id` bigint(20) DEFAULT NULL,
+  `user_userid` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`team_member_id`),
+  UNIQUE KEY `UK_cm2y4471pgpf06uelfwcv68sf` (`user_userid`),
+  KEY `FK2ym1sj502875uhxqysx3xlmbb` (`team_team_id`),
+  CONSTRAINT `FK6lf97bvwlfljwd1dee6crgq66` FOREIGN KEY (`user_userid`) REFERENCES `user` (`userid`),
+  CONSTRAINT `FK2ym1sj502875uhxqysx3xlmbb` FOREIGN KEY (`team_team_id`) REFERENCES `team` (`team_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+
+
+
 
 --
 -- Table structure for table `test_content_usage`
@@ -1651,7 +1729,9 @@ CREATE TABLE `tipweb` (
   `loaddate` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `serialIndex` (`serial`)
-) ENGINE=InnoDB AUTO_INCREMENT=111231 DEFAULT CHARSET=latin1;
+  KEY `locationid_loaddate` (`location_id`,`loaddate`),
+  KEY `tag` (`tag`)
+ ) ENGINE=InnoDB AUTO_INCREMENT=111231 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1668,6 +1748,67 @@ CREATE TABLE `tipweb_archive` (
   KEY `serial` (`serial`)
 ) ENGINE=InnoDB AUTO_INCREMENT=96618 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+
+
+--
+-- Table structure for table `transfer_devices`
+--
+DROP TABLE IF EXISTS `transfer_devices`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `transfer_devices` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `serial_id` varchar(255) DEFAULT NULL,
+  `tag_id` varchar(255) DEFAULT NULL,
+  `device_status_id` bigint(20) DEFAULT NULL,
+  `transfer_history_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK5ao78cmksufs9u6d49o4s4b4g` (`device_status_id`),
+  KEY `FKejk8anxge5c7896nnaruu7f0k` (`transfer_history_id`),
+  CONSTRAINT `FKejk8anxge5c7896nnaruu7f0k` FOREIGN KEY (`transfer_history_id`) REFERENCES `transfer_history` (`id`),
+  CONSTRAINT `FK5ao78cmksufs9u6d49o4s4b4g` FOREIGN KEY (`device_status_id`) REFERENCES `device_status` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+--
+-- Table structure for table `transfer_history`
+--
+DROP TABLE IF EXISTS `transfer_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `transfer_history` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `date_type` datetime(6) DEFAULT NULL,
+  `devices_quantity` bigint(20) DEFAULT NULL,
+  `status` enum('CLOSED','OPEN') DEFAULT NULL,
+  `total_devices` bigint(20) DEFAULT NULL,
+  `from_site_id_id` bigint(20) DEFAULT NULL,
+  `to_site_id_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK9jto1an1k7k2hc5fbprdku0xx` (`from_site_id_id`),
+  KEY `FKlfw93aw0mdw1qgt5aauyh2ta9` (`to_site_id_id`),
+  CONSTRAINT `FKlfw93aw0mdw1qgt5aauyh2ta9` FOREIGN KEY (`to_site_id_id`) REFERENCES `zones_school` (`id`),
+  CONSTRAINT `FK9jto1an1k7k2hc5fbprdku0xx` FOREIGN KEY (`from_site_id_id`) REFERENCES `zones_school` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `usage_category`
+--
+DROP TABLE IF EXISTS `usage_category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `usage_category` (
+  `usage_category_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`usage_category_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+
 
 --
 -- Table structure for table `usage_data`
@@ -1758,6 +1899,33 @@ CREATE TABLE `usage_data_result` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `usage_statistic`
+--
+DROP TABLE IF EXISTS `usage_statistic`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `usage_statistic` (
+  `usage_statistic_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `usage_category_usage_category_id` bigint(20) DEFAULT NULL,
+  `zones_school_id` bigint(20) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `grade` varchar(50) DEFAULT NULL,
+  `ip_address` varchar(15) DEFAULT NULL,
+  `band_width` int(11) DEFAULT NULL,
+  `device_in_school` tinyint(1) DEFAULT NULL,
+  `user` varchar(100) DEFAULT NULL,
+  `is_student` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`usage_statistic_id`),
+  KEY `usage_category_usage_category_id_idx` (`usage_category_usage_category_id`),
+  KEY `zones_school_id_idx` (`zones_school_id`),
+  CONSTRAINT `FKm92khfxm9vnex1dhwtej0r7qm` FOREIGN KEY (`zones_school_id`) REFERENCES `zones_school` (`id`),
+  CONSTRAINT `FKhmj1qc8xoux5wbemmyyrelble` FOREIGN KEY (`usage_category_usage_category_id`) REFERENCES `usage_category` (`usage_category_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=62908921 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+
+--
 -- Table structure for table `user`
 --
 
@@ -1771,9 +1939,42 @@ CREATE TABLE `user` (
   `firstname` varchar(255) DEFAULT NULL,
   `lastname` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
+  `phone_number` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`userid`),
   UNIQUE KEY `UK_ob8kqyqqgmefl0aco34akdtpe` (`email`)
-);
+)ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `user_department`
+--
+DROP TABLE IF EXISTS `user_department`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_department` (
+  `userid` bigint(20) NOT NULL,
+  `dept_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`userid`,`dept_id`),
+  KEY `FKjdq54vxaf49ny9ohf12f2rer` (`dept_id`),
+  CONSTRAINT `FKcrt2fxiq623bda6qtw4bwg95l` FOREIGN KEY (`userid`) REFERENCES `user` (`userid`),
+  CONSTRAINT `FKjdq54vxaf49ny9ohf12f2rer` FOREIGN KEY (`dept_id`) REFERENCES `department` (`dept_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `user_group`
+--
+DROP TABLE IF EXISTS `user_group`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_group` (
+  `userid` bigint(20) NOT NULL,
+  `group_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`userid`,`group_id`),
+  KEY `FK9ej2am5bdj52esgddq0v4ff7i` (`group_id`),
+  CONSTRAINT `FKccgbsuq4pyes7iuhgphlg37do` FOREIGN KEY (`userid`) REFERENCES `user` (`userid`),
+  CONSTRAINT `FK9ej2am5bdj52esgddq0v4ff7i` FOREIGN KEY (`group_id`) REFERENCES `group_info` (`group_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1814,6 +2015,56 @@ CREATE TABLE `user_settings` (
   CONSTRAINT `FK3g9b16uyqu9bk7oddt7j3o9eb` FOREIGN KEY (`user_userid`) REFERENCES `user` (`userid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `user_sites`
+--
+DROP TABLE IF EXISTS `user_sites`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_sites` (
+  `userid` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL,
+  PRIMARY KEY (`userid`,`id`),
+  KEY `FKwpuyb9upjpfok3fgb7k7vax3` (`id`),
+  CONSTRAINT `FKohdmetl2bpy7ue6vj38p6puiy` FOREIGN KEY (`userid`) REFERENCES `user` (`userid`),
+  CONSTRAINT `FKwpuyb9upjpfok3fgb7k7vax3` FOREIGN KEY (`id`) REFERENCES `zones_school` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+--
+-- Table structure for table `vendor`
+--
+DROP TABLE IF EXISTS `vendor`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `vendor` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `description` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vendor_product`
+--
+DROP TABLE IF EXISTS `vendor_product`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `vendor_product` (
+  `vendor_product_id` bigint(20) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `license_vendor_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`vendor_product_id`),
+  KEY `FKpvyv35psxxbthmqaig2rnu7ho` (`license_vendor_id`),
+  CONSTRAINT `FKpvyv35psxxbthmqaig2rnu7ho` FOREIGN KEY (`license_vendor_id`) REFERENCES `license_vendor` (`license_vendor_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
 
 --
 -- Table structure for table `zones`
