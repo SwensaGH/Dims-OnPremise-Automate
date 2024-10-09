@@ -86,8 +86,25 @@ CREATE TABLE `asset_tag` (
   `bluetooth_tag` varchar(255) DEFAULT NULL,
   `date` datetime(6) DEFAULT NULL,
   `user` varchar(255) DEFAULT NULL,
+  `zones_school_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `attachment`
+--
+DROP TABLE IF EXISTS `attachment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `attachment` (
+  `attachment_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `file_name` varchar(255) DEFAULT NULL,
+  `file_path` varchar(255) DEFAULT NULL,
+  `file_type` varchar(255) DEFAULT NULL,
+  `uploaded_at` datetime(6) DEFAULT NULL,
+  PRIMARY KEY (`attachment_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -119,6 +136,25 @@ CREATE TABLE `calendar` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=177 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+--
+-- Table structure for table `category`
+--
+DROP TABLE IF EXISTS `category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `category` (
+  `category_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `createdate` date DEFAULT NULL,
+  `description` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `pid` bigint(20) DEFAULT NULL,
+  `incident_type_incident_type_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`category_id`),
+  KEY `FKeiel7nqjxu4kmefso9tm9qcsu` (`pid`),
+  KEY `FK1tyyngy7pcm6y7de1g1eyuq8h` (`incident_type_incident_type_id`),
+  CONSTRAINT `FK1tyyngy7pcm6y7de1g1eyuq8h` FOREIGN KEY (`incident_type_incident_type_id`) REFERENCES `incident_type` (`incident_type_id`),
+  CONSTRAINT `FKeiel7nqjxu4kmefso9tm9qcsu` FOREIGN KEY (`pid`) REFERENCES `category` (`category_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `connection_table`
@@ -130,6 +166,8 @@ DROP TABLE IF EXISTS `connection_table`;
 CREATE TABLE `connection_table` (
   `serial` varchar(255) DEFAULT NULL,
   `mac_address` varchar(500) DEFAULT NULL
+  KEY `mac_address_index` (`mac_address`),
+  KEY `serial_index` (`serial`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -157,9 +195,154 @@ CREATE TABLE `content_usage` (
   `total` varchar(255) DEFAULT NULL,
   `user` varchar(255) DEFAULT NULL,
   `web2global` varchar(255) DEFAULT NULL,
+  `user_status` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `grade_date` (`grade`,`date`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1103774 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `custom_attributes_definition`
+--
+DROP TABLE IF EXISTS `custom_attributes_definition`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `custom_attributes_definition` (
+  `custom_attribute_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `custom_attribute_type` varchar(255) DEFAULT NULL,
+  `lastupdate` datetime(6) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `value` varchar(255) DEFAULT NULL,
+  `datatype` int(11) NOT NULL,
+  PRIMARY KEY (`custom_attribute_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `customer_satisfaction_survey`
+--
+DROP TABLE IF EXISTS `customer_satisfaction_survey`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `customer_satisfaction_survey` (
+  `survery_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `comments` varchar(255) DEFAULT NULL,
+  `likelihood_to_recommend` int(11) DEFAULT NULL,
+  `overall_satisfaction` int(11) DEFAULT NULL,
+  `product_quality` int(11) DEFAULT NULL,
+  `service_quality` int(11) DEFAULT NULL,
+  `support_quality` int(11) DEFAULT NULL,
+  `survey_date` datetime(6) DEFAULT NULL,
+  `user_userid` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`survery_id`),
+  KEY `FK42mikjep5d5546yapsa5iyss0` (`user_userid`),
+  CONSTRAINT `FK42mikjep5d5546yapsa5iyss0` FOREIGN KEY (`user_userid`) REFERENCES `user` (`userid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `department`
+--
+DROP TABLE IF EXISTS `department`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `department` (
+  `dept_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `description` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`dept_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `department_users`
+--
+DROP TABLE IF EXISTS `department_users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `department_users` (
+  `department_dept_id` bigint(20) NOT NULL,
+  `users_userid` bigint(20) NOT NULL,
+  PRIMARY KEY (`department_dept_id`,`users_userid`),
+  KEY `FKsdf202bxsrk57dsg004t3iql1` (`users_userid`),
+  CONSTRAINT `FKm8q43nb5hdcm0sg5kcd5hg45v` FOREIGN KEY (`department_dept_id`) REFERENCES `department` (`dept_id`),
+  CONSTRAINT `FKsdf202bxsrk57dsg004t3iql1` FOREIGN KEY (`users_userid`) REFERENCES `user` (`userid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `device_custom_attribute`
+--
+DROP TABLE IF EXISTS `device_custom_attribute`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `device_custom_attribute` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `value` varchar(255) DEFAULT NULL,
+  `custom_attribute_id` bigint(20) NOT NULL,
+  `custom_attributes_definition_custom_attribute_id` bigint(20) DEFAULT NULL,
+  `purchase_order_product_device_id_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKg3xv050mf9gqp083a9fsq90ek` (`custom_attribute_id`),
+  KEY `FKlw1dovfsqn78ccb7ukgaty1ul` (`custom_attributes_definition_custom_attribute_id`),
+  KEY `FKqg1sslcv8iak7pydxxjprb0lb` (`purchase_order_product_device_id_id`),
+  CONSTRAINT `FKqg1sslcv8iak7pydxxjprb0lb` FOREIGN KEY (`purchase_order_product_device_id_id`) REFERENCES `purchase_order_product_devices` (`id`),
+  CONSTRAINT `FKg3xv050mf9gqp083a9fsq90ek` FOREIGN KEY (`custom_attribute_id`) REFERENCES `custom_attributes_definition` (`custom_attribute_id`),
+  CONSTRAINT `FKlw1dovfsqn78ccb7ukgaty1ul` FOREIGN KEY (`custom_attributes_definition_custom_attribute_id`) REFERENCES `custom_attributes_definition` (`custom_attribute_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `device_history`
+--
+DROP TABLE IF EXISTS `device_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `device_history` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `available_status` enum('Auctioned','Available','Disposed','InRepair','In_use','Lost','PendingTransfer','Received','Recycled','ReturnedToVendor','Sold','Stolen','Surplus','UsedForParts') DEFAULT NULL,
+  `date_type` datetime(6) DEFAULT NULL,
+  `device_hold_status` bit(1) DEFAULT NULL,
+  `serial_no` varchar(255) DEFAULT NULL,
+  `tag_no` varchar(255) DEFAULT NULL,
+  `room_id` bigint(20) DEFAULT NULL,
+  `site_id_id` bigint(20) DEFAULT NULL,
+  `student_staff_id_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK5nfikw77e31roir2bq40vhj3j` (`room_id`),
+  KEY `FKrkcdbfusta8l9txkafftfg2gj` (`site_id_id`),
+  KEY `FKnkbp5645naf28fjlim6rwppix` (`student_staff_id_id`),
+  CONSTRAINT `FKnkbp5645naf28fjlim6rwppix` FOREIGN KEY (`student_staff_id_id`) REFERENCES `student_and_staff_for_inventory` (`id`),
+  CONSTRAINT `FK5nfikw77e31roir2bq40vhj3j` FOREIGN KEY (`room_id`) REFERENCES `room` (`id`),
+  CONSTRAINT `FKrkcdbfusta8l9txkafftfg2gj` FOREIGN KEY (`site_id_id`) REFERENCES `zones_school` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `device_status`
+--
+DROP TABLE IF EXISTS `device_status`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `device_status` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `status_name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `device_type`
+--
+DROP TABLE IF EXISTS `device_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `device_type` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `device_type_name` varchar(255) DEFAULT NULL,
+  `type_description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -170,14 +353,59 @@ DROP TABLE IF EXISTS `email_notification`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `email_notification` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
   `serial_number` varchar(50) DEFAULT NULL,
   `usertype` varchar(50) DEFAULT NULL,
-  `date` date DEFAULT NULL,
+  `date` datetime(6) DEFAULT NULL,
   `notification_level` int(11) DEFAULT NULL,
   `scenario` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=63319 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `email_template`
+--
+DROP TABLE IF EXISTS `email_template`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `email_template` (
+  `template_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `body` text NOT NULL,
+  `created_at` date DEFAULT NULL,
+  `email_template_name` varchar(255) DEFAULT NULL,
+  `subject` varchar(255) DEFAULT NULL,
+  `updated_at` date DEFAULT NULL,
+  PRIMARY KEY (`template_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `funding_source`
+--
+DROP TABLE IF EXISTS `funding_source`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `funding_source` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `description` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `group_info`
+--
+DROP TABLE IF EXISTS `group_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `group_info` (
+  `group_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `description` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`group_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -188,14 +416,205 @@ DROP TABLE IF EXISTS `holidays`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `holidays` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `htype` int(11) NOT NULL DEFAULT '0',
-  `holiday` date NOT NULL,
+  `holiday` datetime(6)  DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `holiday_index` (`holiday`)
 ) ENGINE=InnoDB AUTO_INCREMENT=240 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `inactive`
+--
+DROP TABLE IF EXISTS `inactive`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `inactive` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `advisor_email` varchar(255) DEFAULT NULL,
+  `date` datetime(6) DEFAULT NULL,
+  `Email` varchar(255) DEFAULT NULL,
+  `first_name` varchar(255) DEFAULT NULL,
+  `parent_email` varchar(255) DEFAULT NULL,
+  `school_code` varchar(255) DEFAULT NULL,
+  `serial_id` varchar(255) DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  `type` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `serial_index` (`serial_id`),
+  KEY `status_index` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `incident_duration`
+--
+DROP TABLE IF EXISTS `incident_duration`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `incident_duration` (
+  `duration_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `comment` varchar(255) DEFAULT NULL,
+  `duration_in_minits` int(11) DEFAULT NULL,
+  `logged_date` date DEFAULT NULL,
+  `incident_incident_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`duration_id`),
+  KEY `FKey2foay9p840vh40vxdxvmt3w` (`incident_incident_id`),
+  CONSTRAINT `FKey2foay9p840vh40vxdxvmt3w` FOREIGN KEY (`incident_incident_id`) REFERENCES `incident` (`incident_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `incident_labor_events`
+--
+DROP TABLE IF EXISTS `incident_labor_events`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `incident_labor_events` (
+  `incident_labor_events_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `comment` varchar(255) DEFAULT NULL,
+  `logged_date` date DEFAULT NULL,
+  `incident_incident_id` bigint(20) DEFAULT NULL,
+  `labor_event_labor_event_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`incident_labor_events_id`),
+  KEY `FKo3aam7rc4n0ct23sslggvb3a4` (`incident_incident_id`),
+  KEY `FKetpc7fyjuqho717yitquv22sy` (`labor_event_labor_event_id`),
+  CONSTRAINT `FKetpc7fyjuqho717yitquv22sy` FOREIGN KEY (`labor_event_labor_event_id`) REFERENCES `labor_event` (`labor_event_id`),
+  CONSTRAINT `FKo3aam7rc4n0ct23sslggvb3a4` FOREIGN KEY (`incident_incident_id`) REFERENCES `incident` (`incident_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `incident_notes`
+--
+DROP TABLE IF EXISTS `incident_notes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `incident_notes` (
+  `incident_notes_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `logged_date` date DEFAULT NULL,
+  `notes` text NOT NULL,
+  `incident_incident_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`incident_notes_id`),
+  KEY `FKtc33rr80fgf3irn2eb98creri` (`incident_incident_id`),
+  CONSTRAINT `FKtc33rr80fgf3irn2eb98creri` FOREIGN KEY (`incident_incident_id`) REFERENCES `incident` (`incident_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `incident_pictures`
+--
+DROP TABLE IF EXISTS `incident_pictures`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `incident_pictures` (
+  `incident_pictures_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `mediatype` int(11) DEFAULT '0',
+  `name` varchar(255) NOT NULL,
+  `incident_template_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`incident_pictures_id`),
+  KEY `FK474in8jubr4h2ubi8ewhkof1j` (`incident_template_id`),
+  CONSTRAINT `FK474in8jubr4h2ubi8ewhkof1j` FOREIGN KEY (`incident_template_id`) REFERENCES `incident_template` (`incident_template_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `incident_template`
+--
+DROP TABLE IF EXISTS `incident_template`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `incident_template` (
+  `incident_template_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `description` varchar(255) NOT NULL,
+  `inactive` int(11) NOT NULL DEFAULT '0',
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`incident_template_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `incident_template_category`
+--
+DROP TABLE IF EXISTS `incident_template_category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `incident_template_category` (
+  `incident_template_id` bigint(20) NOT NULL,
+  `category_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`incident_template_id`,`category_id`),
+  KEY `FK7f3u114hxwwikv07bu0lery3h` (`category_id`),
+  CONSTRAINT `FK6x9ckxoo7v7n7a7tl56wjq6pp` FOREIGN KEY (`incident_template_id`) REFERENCES `incident_template` (`incident_template_id`),
+  CONSTRAINT `FK7f3u114hxwwikv07bu0lery3h` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `incident_template_field_value`
+--
+DROP TABLE IF EXISTS `incident_template_field_value`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `incident_template_field_value` (
+  `itf_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `field_value` varchar(255) DEFAULT NULL,
+  `incident_template_field_i_template_field_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`itf_id`),
+  KEY `FK1g6sffdfebha80aib1rqsse4j` (`incident_template_field_i_template_field_id`),
+  CONSTRAINT `FK1g6sffdfebha80aib1rqsse4j` FOREIGN KEY (`incident_template_field_i_template_field_id`) REFERENCES `incident_template_field` (`i_template_field_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `incident_template_tag`
+--
+
+DROP TABLE IF EXISTS `incident_template_tag`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `incident_template_tag` (
+  `incident_template_id` bigint(20) NOT NULL,
+  `tag_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`incident_template_id`,`tag_id`),
+  KEY `FKe0oj851t133din3g2ua9w28ua` (`tag_id`),
+  CONSTRAINT `FKahba29v40oxllvdwvg80fudfc` FOREIGN KEY (`incident_template_id`) REFERENCES `incident_template` (`incident_template_id`),
+  CONSTRAINT `FKe0oj851t133din3g2ua9w28ua` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `incident_type`
+--
+DROP TABLE IF EXISTS `incident_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `incident_type` (
+  `incident_type_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `create_date` date DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`incident_type_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `incident_value`
+--
+DROP TABLE IF EXISTS `incident_value`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `incident_value` (
+  `incident_value_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `value_info` varbinary(255) DEFAULT NULL,
+  `incident_template_field_i_template_field_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`incident_value_id`),
+  KEY `FK80u5hdg502qugenpfhe9redv4` (`incident_template_field_i_template_field_id`),
+  CONSTRAINT `FK80u5hdg502qugenpfhe9redv4` FOREIGN KEY (`incident_template_field_i_template_field_id`) REFERENCES `incident_template_field` (`i_template_field_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `integrations`
@@ -213,6 +632,20 @@ CREATE TABLE `integrations` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_itype_option` (`itype`,`option_value`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `inventory_category`
+--
+DROP TABLE IF EXISTS `inventory_category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `inventory_category` (
+  `inventory_category_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `description` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`inventory_category_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -250,6 +683,28 @@ CREATE TABLE `isd_dates` (
 ) ENGINE=InnoDB AUTO_INCREMENT=367 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+
+--
+-- Table structure for table `issue`
+--
+DROP TABLE IF EXISTS `issue`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `issue` (
+  `issue_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `create_date` date DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `category_category_id` bigint(20) DEFAULT NULL,
+  `rule_rule_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`issue_id`),
+  KEY `FKt6wt97lpxwbk3arl45qlvdkcg` (`category_category_id`),
+  KEY `FK1c1nhfobpdaiqk087qo1sgye4` (`rule_rule_id`),
+  CONSTRAINT `FK1c1nhfobpdaiqk087qo1sgye4` FOREIGN KEY (`rule_rule_id`) REFERENCES `rule` (`rule_id`),
+  CONSTRAINT `FKt6wt97lpxwbk3arl45qlvdkcg` FOREIGN KEY (`category_category_id`) REFERENCES `category` (`category_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 --
 -- Table structure for table `job_info`
 --
@@ -267,11 +722,201 @@ CREATE TABLE `job_info` (
   `script` varchar(255) DEFAULT NULL,
   `source` varchar(255) DEFAULT NULL,
   `integration_id` bigint(20) DEFAULT NULL,
+  `html_code` text,
   PRIMARY KEY (`id`),
   KEY `FKihk2cyqndn3kmdw761a0ohasw` (`integration_id`),
   CONSTRAINT `FKihk2cyqndn3kmdw761a0ohasw` FOREIGN KEY (`integration_id`) REFERENCES `integrations` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `job_info_report`
+--
+DROP TABLE IF EXISTS `job_info_report`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `job_info_report` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `datetime` date DEFAULT NULL,
+  `details` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `firstname` varchar(255) DEFAULT NULL,
+  `inactive` int(11) NOT NULL,
+  `lastname` varchar(255) DEFAULT NULL,
+  `locationid` varchar(255) DEFAULT NULL,
+  `missing_type` varchar(255) DEFAULT NULL,
+  `notify` varchar(255) DEFAULT NULL,
+  `serial` varchar(255) DEFAULT NULL,
+  `siteid` varchar(255) DEFAULT NULL,
+  `user_type` varchar(255) DEFAULT NULL,
+  `working_days` bigint(20) DEFAULT NULL,
+  `grade` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+--
+-- Table structure for table `job_info_report_details`
+--
+DROP TABLE IF EXISTS `job_info_report_details`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `job_info_report_details` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `date` date DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `firstname` varchar(255) DEFAULT NULL,
+  `lastname` varchar(255) DEFAULT NULL,
+  `location_id` varchar(255) DEFAULT NULL,
+  `notify_email` varchar(255) DEFAULT NULL,
+  `notify_type` varchar(255) DEFAULT NULL,
+  `serial` varchar(255) DEFAULT NULL,
+  `site_name` varchar(255) DEFAULT NULL,
+  `serial_number` varchar(255) DEFAULT NULL,
+  `school` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `labor_event`
+--
+DROP TABLE IF EXISTS `labor_event`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `labor_event` (
+  `labor_event_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `total_time` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`labor_event_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `license`
+--
+DROP TABLE IF EXISTS `license`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `license` (
+  `license_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created_at` datetime(6) DEFAULT NULL,
+  `expiry_date` datetime(6) DEFAULT NULL,
+  `item_no` varchar(255) DEFAULT NULL,
+  `model_no` varchar(255) DEFAULT NULL,
+  `purchase_cost` double DEFAULT NULL,
+  `remaining` bigint(20) DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `total_no` bigint(20) DEFAULT NULL,
+  `inventory_category_id` bigint(20) DEFAULT NULL,
+  `site_id` bigint(20) DEFAULT NULL,
+  `license_vendor_id` bigint(20) DEFAULT NULL,
+  `vendor_product_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`license_id`),
+  KEY `FKokoeii4gqsr0wxfukv7wupi40` (`inventory_category_id`),
+  KEY `FKmbf3adsc07fojx8lntdfc9v9k` (`site_id`),
+  KEY `FKq5tflqy58b9sqgasnsxss20s2` (`license_vendor_id`),
+  KEY `FKk9vj58pqhakg111hseybsyefj` (`vendor_product_id`),
+  CONSTRAINT `FKk9vj58pqhakg111hseybsyefj` FOREIGN KEY (`vendor_product_id`) REFERENCES `vendor_product` (`vendor_product_id`),
+  CONSTRAINT `FKmbf3adsc07fojx8lntdfc9v9k` FOREIGN KEY (`site_id`) REFERENCES `zones_school` (`id`),
+  CONSTRAINT `FKokoeii4gqsr0wxfukv7wupi40` FOREIGN KEY (`inventory_category_id`) REFERENCES `inventory_category` (`inventory_category_id`),
+  CONSTRAINT `FKq5tflqy58b9sqgasnsxss20s2` FOREIGN KEY (`license_vendor_id`) REFERENCES `license_vendor` (`license_vendor_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+--
+-- Table structure for table `license_assignment`
+--
+DROP TABLE IF EXISTS `license_assignment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `license_assignment` (
+  `assignment_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `assigned_date` datetime(6) DEFAULT NULL,
+  `hold_status` bit(1) DEFAULT NULL,
+  `quantity` bigint(20) DEFAULT NULL,
+  `from_site_id` bigint(20) DEFAULT NULL,
+  `room_id` bigint(20) DEFAULT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+  `site_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`assignment_id`),
+  KEY `FKmrxr0re9mk4b1dgwwttl3a1oa` (`from_site_id`),
+  KEY `FKadpdhyk30bfpno7r13thlqtp5` (`room_id`),
+  KEY `FKiahwwmhv7udjh75574g0dfh58` (`user_id`),
+  KEY `FKjixb1l8x77cehgiej5kpdukvg` (`site_id`),
+  CONSTRAINT `FKjixb1l8x77cehgiej5kpdukvg` FOREIGN KEY (`site_id`) REFERENCES `zones_school` (`id`),
+  CONSTRAINT `FKadpdhyk30bfpno7r13thlqtp5` FOREIGN KEY (`room_id`) REFERENCES `room` (`id`),
+  CONSTRAINT `FKiahwwmhv7udjh75574g0dfh58` FOREIGN KEY (`user_id`) REFERENCES `user` (`userid`),
+  CONSTRAINT `FKmrxr0re9mk4b1dgwwttl3a1oa` FOREIGN KEY (`from_site_id`) REFERENCES `zones_school` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `license_key`
+--
+DROP TABLE IF EXISTS `license_key`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `license_key` (
+  `license_key_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `is_active` bit(1) DEFAULT NULL,
+  `license_key` varchar(255) DEFAULT NULL,
+  `updated_at` datetime(6) DEFAULT NULL,
+  `license_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`license_key_id`),
+  KEY `FKjjc6me5opl2t7ppvxpvo4o8v6` (`license_id`),
+  CONSTRAINT `FKjjc6me5opl2t7ppvxpvo4o8v6` FOREIGN KEY (`license_id`) REFERENCES `license` (`license_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `license_vendor`
+--
+DROP TABLE IF EXISTS `license_vendor`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `license_vendor` (
+  `license_vendor_id` bigint(20) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`license_vendor_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `managers`
+--
+DROP TABLE IF EXISTS `managers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `managers` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `user_type` varchar(255) DEFAULT NULL,
+  `school_code` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UKp2sr8hi9qk4nvb62a3sab4m8e` (`email`,`name`,`user_type`,`school_code`),
+  KEY `FKhju8rrbci5ivnnsrpx87dx3sr` (`school_code`),
+  CONSTRAINT `FKhju8rrbci5ivnnsrpx87dx3sr` FOREIGN KEY (`school_code`) REFERENCES `zones_school` (`school_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `manufacturer`
+--
+DROP TABLE IF EXISTS `manufacturer`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `manufacturer` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `manufacturer_name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `mdm_raw_data`
@@ -315,6 +960,7 @@ CREATE TABLE `mdmdata` (
   KEY `mac_address_index` (`mac_address`),
   KEY `serial_number_index` (`serial_number`),
   KEY `mdm_composite_index` (`last_check_in`,`mac_address`)
+  KEY `idxloaddate` (`loaddate`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
