@@ -977,7 +977,7 @@ CREATE TABLE `mdmdata` (
   KEY `last_check_in_index` (`last_check_in`),
   KEY `mac_address_index` (`mac_address`),
   KEY `serial_number_index` (`serial_number`),
-  KEY `mdm_composite_index` (`last_check_in`,`mac_address`)
+  KEY `mdm_composite_index` (`last_check_in`,`mac_address`),
   KEY `idxloaddate` (`loaddate`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1400,7 +1400,7 @@ CREATE TABLE `result_table` (
   KEY `date_sitename_product_type_zoneid_index` (`date`,`mdm_status`,`secondary_check_status`,`product_type`,`zone_id`,`site_name`),
   KEY `date_sitename_location_zoneid_index` (`date`,`mdm_status`,`secondary_check_status`,`location`,`zone_id`,`site_name`),
   KEY `location_date` (`date`,`location`),
-  KEY `name` (`name`)
+  KEY `name` (`name`),
   KEY `idx_result_table_optimization` (`date`,`mdm_status`,`secondary_check_status`,`user_status`,`location`,`site_name`,`product_type`,`grade`,`department`),
   KEY `idx_result_table_optimization_manufacture` (`date`,`mdm_status`,`secondary_check_status`,`user_status`,`location`,`site_name`,`product_type`,`grade`,`manufacture`),
   KEY `user_status_index` (`user_status`),
@@ -1746,7 +1746,7 @@ CREATE TABLE `tipweb` (
   `source` varchar(50) NOT NULL,
   `loaddate` date NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `serialIndex` (`serial`)
+  KEY `serialIndex` (`serial`),
   KEY `locationid_loaddate` (`location_id`,`loaddate`),
   KEY `tag` (`tag`)
  ) ENGINE=InnoDB AUTO_INCREMENT=111231 DEFAULT CHARSET=latin1;
