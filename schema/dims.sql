@@ -2093,7 +2093,10 @@ CREATE TABLE `zones_school` (
   `school_name_in_web` varchar(255) DEFAULT NULL,
   `zone_id` bigint(20) DEFAULT NULL,
   `campus_code` varchar(255) DEFAULT NULL,
+  `school_code` varchar(255) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_joqo3vl2q8rikyt4idu5ohpbs` (`school_code`),
   KEY `FKkrsg2j8h6miwb5n78betchgnu` (`zone_id`),
   CONSTRAINT `FKkrsg2j8h6miwb5n78betchgnu` FOREIGN KEY (`zone_id`) REFERENCES `zones` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=214 DEFAULT CHARSET=latin1;
