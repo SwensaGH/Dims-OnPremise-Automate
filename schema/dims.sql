@@ -165,7 +165,7 @@ DROP TABLE IF EXISTS `connection_table`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `connection_table` (
   `serial` varchar(255) DEFAULT NULL,
-  `mac_address` varchar(500) DEFAULT NULL
+  `mac_address` varchar(500) DEFAULT NULL,
   KEY `mac_address_index` (`mac_address`),
   KEY `serial_index` (`serial`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
