@@ -552,6 +552,24 @@ CREATE TABLE `incident_template_category` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `incident_template_field`
+--
+
+DROP TABLE IF EXISTS `incident_template_field`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `incident_template_field` (
+  `i_template_field_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `field_name` varchar(255) DEFAULT NULL,
+  `field_type` varchar(255) DEFAULT NULL,
+  `incident_template_incident_template_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`i_template_field_id`),
+  KEY `FKfwqnwqikqxrb0uqla2a0xpuh7` (`incident_template_incident_template_id`),
+  CONSTRAINT `FKfwqnwqikqxrb0uqla2a0xpuh7` FOREIGN KEY (`incident_template_incident_template_id`) REFERENCES `incident_template` (`incident_template_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `incident_template_field_value`
 --
 DROP TABLE IF EXISTS `incident_template_field_value`;
