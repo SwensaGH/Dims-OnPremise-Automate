@@ -199,10 +199,10 @@ while true; do
 done
 
 echo
-
+echo curl -s -X 'POST' "http://$ip/auth/register" -H 'accept: */*' -H 'Content-Type: application/json' -d '{ "email": "'$email'", "password" : "'    $password'", "firstname": "Dims", "lastname": "Admin", "roleId": [ 1 ], "groupId": [] }'
 http_response=$(curl -s -X 'POST' "http://$ip/auth/registerrrr" \
     -H 'accept: */*' -H 'Content-Type: application/json' \
-    -d '{ "email": "'$email'", "password" : "'$password'", "firstname": "Dims", "lastname": "Admin", "roleId": [ 1 ] }')
+    -d '{ "email": "'$email'", "password" : "'$password'", "firstname": "Dims", "lastname": "Admin", "roleId": [ 1 ], "groupId": [] }')
 
 if [[ "$http_response" == *"User registered successfully"* ]]; then
     echo "---------------------------------------------------------"
