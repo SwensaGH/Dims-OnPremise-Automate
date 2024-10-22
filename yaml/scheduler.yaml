@@ -38,7 +38,7 @@ spec:
               cpu: "1000m"
           env:
             - name: DB_HOST
-              value: jdbc:mysql://mysql/dimsdb?useSSL=false
+              value: mysql
             - name: DB_PORT
               value: '3306'    
             - name: DB_NAME
