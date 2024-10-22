@@ -27,7 +27,7 @@ spec:
         app: mysql
     spec:
       containers:
-        - image: mysql:8.4
+        - image: mysql:5.7.4
           name: mysql
           resources:
             requests:
@@ -52,7 +52,7 @@ spec:
               mountPath: /dims.sql
               subPath: dims.sql
             - name: config-volume
-              mountPath: /etc/mysql/conf.d/  
+              mountPath: /etc/mysql/ 
       volumes:
         - name: mysql-persistent-storage
           persistentVolumeClaim:
