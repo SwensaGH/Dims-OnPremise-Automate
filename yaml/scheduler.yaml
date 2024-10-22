@@ -50,7 +50,10 @@ spec:
             - name: BACKUP_CSV_PATH
               value: /backup/        
             - name: INTEGRATIONS
-              value: '01:00'      
+              value: '01:00' 
+            - name: JDBC_URL
+              value: jdbc:mysql://mysql:3306/dimsdb?allowPublicKeyRetrieval=true&useSSL=false
+            
           ports:
             - containerPort: 5000
               name: scheduler
