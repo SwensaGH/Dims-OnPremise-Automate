@@ -52,7 +52,7 @@ spec:
               mountPath: /dims.sql
               subPath: dims.sql
             - name: config-volume
-              mountPath:/etc/mysql/conf.d/  
+              mountPath: /etc/mysql/conf.d/  
       volumes:
         - name: mysql-persistent-storage
           persistentVolumeClaim:
