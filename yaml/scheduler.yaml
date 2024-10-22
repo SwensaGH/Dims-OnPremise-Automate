@@ -38,7 +38,7 @@ spec:
               cpu: "1000m"
           env:
             - name: DB_HOST
-              value: mysql
+              value: jdbc:mysql://mysql/dimsdb?useSSL=false
             - name: DB_PORT
               value: '3306'    
             - name: DB_NAME
@@ -51,8 +51,6 @@ spec:
               value: /backup/        
             - name: INTEGRATIONS
               value: '01:00' 
-            - name: JDBC_URL
-              value: jdbc:mysql://mysql:3306/dimsdb?allowPublicKeyRetrieval=true&useSSL=false
             
           ports:
             - containerPort: 5000
