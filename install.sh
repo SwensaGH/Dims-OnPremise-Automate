@@ -200,7 +200,7 @@ done
 
 echo
 echo curl -s -X 'POST' "http://$ip/auth/register" -H 'accept: */*' -H 'Content-Type: application/json' -d '{ "email": "'$email'", "password" : "'    $password'", "firstname": "Dims", "lastname": "Admin", "roleId": [ 1 ], "groupId": [] }'
-http_response=$(curl -s -X 'POST' "http://$ip/auth/registerrrr" \
+http_response=$(curl -s -X 'POST' "http://$ip/auth/register" \
     -H 'accept: */*' -H 'Content-Type: application/json' \
     -d '{ "email": "'$email'", "password" : "'$password'", "firstname": "Dims", "lastname": "Admin", "roleId": [ 1 ], "groupId": [] }')
 
