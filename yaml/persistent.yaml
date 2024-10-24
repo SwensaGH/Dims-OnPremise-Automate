@@ -35,36 +35,6 @@ spec:
   resources:
     requests:
       storage: 10Gi
----
-# --------------------------------------------------
-# Persistent Volume for Automation Source/Scripts
-# --------------------------------------------------
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: src-pv-volume
-  labels:
-    type: local
-spec:
-  storageClassName: srcsc
-  capacity:
-    storage: 10Gi
-  accessModes:
-    - ReadOnlyMany 
-  hostPath:
-    path: "/opt/dims/schema"
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: src-pv-claim
-spec:
-  storageClassName: srcsc
-  accessModes:
-    - ReadOnlyMany 
-  resources:
-    requests:
-      storage: 10Gi
 
 ---
 # --------------------------------------------------
