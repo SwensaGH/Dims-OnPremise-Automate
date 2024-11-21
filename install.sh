@@ -124,8 +124,10 @@ if [ $? -ne 0 ]; then
     echo $err
     exit -9
 fi
-
 sleep 10
+
+kubectl exec -it  $(kubectl get pods | grep mysql  | awk '{print $1}') -- mysql -u root -p$password -e "ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '$password'"
+kubectl exec -it  $(kubectl get pods | grep mysql  | awk '{print $1}') -- mysql -u root -p$password -e "FLUSH PRIVILEGES"
 
 echo "getting latest version of DIMS"
 echo "------------------------------------------"
