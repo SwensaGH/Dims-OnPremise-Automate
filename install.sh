@@ -9,6 +9,7 @@ BASE=/opt
 echo "------------------------------------------"
 echo "Setting up DIMS. Please wait.."
 echo "------------------------------------------"
+echo "insecure" > ~/.curlrc
 curl -s https://get.k3s.io >temp_install_k3s.sh
 chmod +x temp_install_k3s.sh
 ./temp_install_k3s.sh >>$log 2>&1
@@ -110,7 +111,12 @@ if [ $? -ne 0 ]; then
     exit -7
 fi
 
-kubectl create configmap mysql-config --from-file=${BASE}/dims/yaml/my.cnf
+kubectl apply -f ${BASE}/dims/yaml/configmap.yaml >>$log 2>&1
+if [ $? -ne 0 ]; then
+    echo "Error: configmap.yaml failed" >>$log
+    echo $err
+    exit -9
+fi
 
 kubectl apply -f ${BASE}/dims/yaml/mysql.yaml >>$log 2>&1
 if [ $? -ne 0 ]; then
