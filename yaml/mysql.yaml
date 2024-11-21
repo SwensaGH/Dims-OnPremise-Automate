@@ -27,7 +27,7 @@ spec:
         app: mysql
     spec:
       containers:
-        - image: swensadocker/dims_mysql8:1.0.0-dev-9
+        - image: swensadocker/dims_mysql8:1.0.0-dev-10
           name: mysql
           resources:
             requests:
