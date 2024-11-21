@@ -124,7 +124,7 @@ if [ $? -ne 0 ]; then
     echo $err
     exit -9
 fi
-sleep 10
+sleep 60
 
 
 echo "getting latest version of DIMS"
