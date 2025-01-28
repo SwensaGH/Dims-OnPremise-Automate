@@ -129,7 +129,7 @@ sleep 60
 
 echo "getting latest version of DIMS"
 echo "------------------------------------------"
-dimsimage=1.0.0-dev-411 #<Get the latest image>
+dimsimage=1.0.0-main-5 #<Get the latest image>
 sed -i -e "s/_DIMSIMAGE_/${dimsimage}/g" ${BASE}/dims/yaml/dims.yaml >>$log 2>&1
 if [ $? -ne 0 ]; then
    echo "Error: updating _DIMSIMAGE_ failed" >>$log
