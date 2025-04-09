@@ -6,6 +6,18 @@ log="/tmp/k3s_setup.log"
 
 BASE=/opt
 
+while true; do
+    echo -n "Enter customer id : "
+    read cid
+    echo -n "Re-enter customer id : "
+    read confirmcid
+    if [ "$cid" == "$confirmcid" ]; then
+        break
+    fi
+    echo "Customer id don't match."
+done
+echo "------------------------------------------"
+
 echo "------------------------------------------"
 echo "Setting up DIMS. Please wait.."
 echo "------------------------------------------"
@@ -55,6 +67,9 @@ if [ $? -ne 0 ]; then
 fi
 
 chmod +x /opt/dims/schema/entrypoint.sh
+
+sed -i "s/_CUSTOMER_/$cid/" /opt/dims/schema/dims.sql
+
 
 echo "Preparing data"
 echo "------------------------------------------"
