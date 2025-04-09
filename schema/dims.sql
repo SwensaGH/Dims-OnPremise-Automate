@@ -3139,6 +3139,12 @@ INSERT INTO `project_settings`    VALUES (1,'dashboard_usage','0',NULL,NULL, NUL
 
 INSERT INTO `role` VALUES (1,'Admin','Admin');
 
+INSERT INTO `modules` VALUES (1,'Insights'),(2,'Inventory'),(3,'Incident'),(4,'All');
+INSERT INTO `policies` VALUES (1,'All',0,4);
+INSERT INTO `role_policy` VALUES (783,'CREATE',1,1),(784,'UPDATE',1,1),(785,'DELETE',1,1);
+insert into granted_authorities (granted_authority_name) value ('Admin');
+insert into role_granted_authorities values (1, 1);
+
 INSERT INTO `zones` VALUES (1,'All');
 
 -- insert into user (active,email,password) values ('','dims','$2a$10$RLK49pM5EirlpvdQ7EeoheAJwIxM5Rowf6dEKA6/z8mnl1WUDGed2');
