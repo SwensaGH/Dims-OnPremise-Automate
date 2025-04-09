@@ -144,7 +144,7 @@ sleep 60
 
 echo "getting latest version of DIMS"
 echo "------------------------------------------"
-dimsimage=1.0.0-main-5 #<Get the latest image>
+dimsimage=1.0.0-main-15 #<Get the latest image>
 sed -i -e "s/_DIMSIMAGE_/${dimsimage}/g" ${BASE}/dims/yaml/dims.yaml >>$log 2>&1
 if [ $? -ne 0 ]; then
    echo "Error: updating _DIMSIMAGE_ failed" >>$log
@@ -220,7 +220,7 @@ while true; do
 done
 
 echo
-echo curl -s -X 'POST' "http://$ip/auth/register" -H 'accept: */*' -H 'Content-Type: application/json' -d '{ "email": "'$email'", "password" : "'    $password'", "firstname": "Dims", "lastname": "Admin", "roleId": [ 1 ], "groupId": [] }'
+echo curl -s -X 'POST' "http://$ip/auth/register" -H 'accept: */*' -H 'Content-Type: application/json' -d '{ "email": "'$email'", "password" : "'$password'", "firstname": "Dims", "lastname": "Admin", "roleId": [ 1 ], "groupId": [] }'
 http_response=$(curl -s -X 'POST' "http://$ip/auth/register" \
     -H 'accept: */*' -H 'Content-Type: application/json' \
     -d '{ "email": "'$email'", "password" : "'$password'", "firstname": "Dims", "lastname": "Admin", "roleId": [ 1 ], "groupId": [] }')
