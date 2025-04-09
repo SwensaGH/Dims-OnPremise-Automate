@@ -144,7 +144,7 @@ sleep 60
 
 echo "getting latest version of DIMS"
 echo "------------------------------------------"
-dimsimage=1.0.0-main-15 #<Get the latest image>
+dimsimage=`curl -s "https://hub.docker.com/v2/repositories/swensadocker/dims/tags" | jq -r '.results[].name' | grep "main" | sort |  tail -n 1`
 sed -i -e "s/_DIMSIMAGE_/${dimsimage}/g" ${BASE}/dims/yaml/dims.yaml >>$log 2>&1
 if [ $? -ne 0 ]; then
    echo "Error: updating _DIMSIMAGE_ failed" >>$log
@@ -177,11 +177,26 @@ if [ $? -ne 0 ]; then
     exit -14
 fi
 
+schimage=`curl -s "https://hub.docker.com/v2/repositories/swensadocker/dims-scheduler-dev/tags" | jq -r '.results[].name' |  grep -E '\-[0-9]+$' | sort |  tail -n 1`
+sed -i -e "s/_DIMSIMAGE_/${schimage}/g" ${BASE}/dims/yaml/scheduler.yaml >>$log 2>&1
+if [ $? -ne 0 ]; then
+   echo "Error: updating Scheduler Image failed" >>$log
+   echo $err
+   exit -15
+fi
+
 kubectl apply -f ${BASE}/dims/yaml/scheduler.yaml >>$log 2>&1
 if [ $? -ne 0 ]; then
     echo "Error: dims.yaml failed" >>$log
     echo $err
-    exit -15
+    exit -16
+fi
+
+kubectl apply -f  https://raw.githubusercontent.com/traefik/traefik/v3.3/docs/content/reference/dynamic-configuration/kubernetes-crd-definition-v1.yml >>$log 2>&1
+if [ $? -ne 0 ]; then
+    echo "Error: Traefik CRDs Failed" >>$log
+    echo $err
+    exit -17
 fi
 
 ip=$(ifconfig | grep inet | grep -v inet6 | awk '{print $2}' | grep -v "\.1$" | grep -v "\.0$")
@@ -189,7 +204,7 @@ sed -i -e "s/_IPADDRESS_/${ip}/g" ${BASE}/dims/yaml/traefik.yaml >>$log 2>&1
 if [ $? -ne 0 ]; then
     echo "Error: updating IP failed" >>$log
     echo $err
-    exit -16
+    exit -18
 fi
 sleep 20
 kubectl apply -f ${BASE}/dims/yaml/traefik.yaml >>$log 2>&1
@@ -234,5 +249,5 @@ if [[ "$http_response" == *"User registered successfully"* ]]; then
     echo "---------------------------------------------------------"
 else
     echo "Something went wrong. Could not create Dims Admin user. Please contact dims.swensa.com"
-    exit -17
+    exit -19
 fi
