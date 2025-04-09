@@ -16,7 +16,6 @@ while true; do
     fi
     echo "Customer id don't match."
 done
-echo "------------------------------------------"
 
 echo "------------------------------------------"
 echo "Setting up DIMS. Please wait.."
@@ -50,7 +49,6 @@ if [ $? -ne 0 ]; then
     exit -3
 fi
 
-echo "------------------------------------------"
 apt install -y net-tools >>$log 2>&1
 if [ $? -ne 0 ]; then
     echo "Error: installing net-tools failed" >>$log
