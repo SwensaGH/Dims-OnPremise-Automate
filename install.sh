@@ -233,12 +233,8 @@ while true; do
 done
 
 echo
-#echo curl -s -X 'POST' "http://$ip/auth/register" -H 'accept: */*' -H 'Content-Type: application/json' -d '{ "email": "'$email'", "password" : "'$password'", "firstname": "Dims", "lastname": "Admin", "roleId": [ 1 ], "groupId": [] }'
-echo curl  -s -X POST "http://$ip/auth/register" -H 'accept: */*' -H 'Content-Type: application/json'  -d '{ "userid": "0", "email": "$email", "password" : "$password", "firstname": "Dims", "lastname": "Admin",  "phoneNumber": "1231231234", "roleId": [ 1 ], "groupId": [] }'
-
-http_response=$(curl -s -X 'POST' "http://$ip/auth/register" \
-    -H 'accept: */*' -H 'Content-Type: application/json' \
-    -d '{ "email": "'$email'", "password" : "'$password'", "firstname": "Dims", "lastname": "Admin", "roleId": [ 1 ], "groupId": [] }')
+echo curl -X 'POST' 'http://$ip/auth/register' -H 'accept: */*' -H 'Content-Type: application/json' -d '{"userid": 0, "email": "$email", "password": "$password", "firstname": "I3", "lastname": "App", "phoneNumber": "123-123-1234", "roleId": [1], "groupId": [] }'
+http_response=$(curl -X 'POST' 'http://$ip/auth/register' -H 'accept: */*' -H 'Content-Type: application/json' -d '{"userid": 0, "email": "$email", "password": "$password", "firstname": "I3", "lastname": "App", "phoneNumber": "123-123-1234", "roleId": [1], "groupId": [] }')
 
 if [[ "$http_response" == *"User registered successfully"* ]]; then
     echo "---------------------------------------------------------"
