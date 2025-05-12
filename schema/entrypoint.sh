@@ -75,7 +75,7 @@ done
 ## file the academic_year table
 ## ------------------------------------------------------------
 current_year=$(date +'%Y')
-for ((i = 0; i < 10; i++)); do
+for ((i = -1; i < 10; i++)); do
     start_year=$((current_year + i))
     end_year=$((start_year + 1))
     academic_year="${start_year}-${end_year}"
