@@ -50,4 +50,11 @@ spec:
           ports:
             - containerPort: 3333
               name: dims
+          volumeMounts:
+            - name: scheduler-persistent-storage
+              mountPath: /backup/
+      volumes:
+        - name: scheduler-persistent-storage
+          persistentVolumeClaim:
+            claimName: scheduler-pv-claim
 
