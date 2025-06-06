@@ -52,7 +52,7 @@ spec:
               name: dims
           volumeMounts:
             - name: scheduler-persistent-storage
-              mountPath: /backup/
+              mountPath: /scheduler_files/
       volumes:
         - name: scheduler-persistent-storage
           persistentVolumeClaim:
