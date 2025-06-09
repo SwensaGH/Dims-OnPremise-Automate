@@ -26,6 +26,28 @@ spec:
         app: dims
     spec:
       serviceAccountName: dims-service-account  # Add the ServiceAccount
+
+      initContainers:
+      - name: cert-setup-init
+        image: keystore-image:latest # This image needs to be built from Dockerfile.keystore
+        imagePullPolicy: IfNotPresent # Or Always, depending on your setup
+        volumeMounts:
+        - name: workdir # Mounts the shared volume
+          mountPath: /app
+        # env: # Pass environment variables to the init container
+        # - name: LDAP_SERVER
+        #   value: "ldaps.lisd.net" # Replace with your actual LDAP server if different
+        # - name: LDAP_USER
+        #   valueFrom: # Best practice to get sensitive info from a Secret
+        #     secretKeyRef:
+        #       name: ldap-credentials # Name of your Kubernetes Secret
+        #       key: username          # Key within the Secret for username
+        # - name: LDAP_PASSWORD
+        #   valueFrom: # Best practice to get sensitive info from a Secret
+        #     secretKeyRef:
+        #       name: ldap-credentials # Name of your Kubernetes Secret
+        #       key: password          # Key within the Secret for password
+          
       containers:
         - image: swensadocker/dims:_DIMSIMAGE_
           name: dims
@@ -37,6 +59,8 @@ spec:
               memory: "2Gi"
               cpu: "500m"
           env:
+          - name: JAVA_OPTS
+            value: "-Djavax.net.ssl.trustStore=/app/my-truststore.jks -Djavax.net.ssl.trustStorePassword=changeit"
           - name: DB_HOST
             value: jdbc:mysql://mysql/dimsdb?allowPublicKeyRetrieval=true&useSSL=false
           - name: DB_USER
