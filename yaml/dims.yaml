@@ -27,13 +27,13 @@ spec:
     spec:
       serviceAccountName: dims-service-account  # Add the ServiceAccount
 
-      initContainers:
-      - name: cert-setup-init
-        image: keystore-image:latest # This image needs to be built from Dockerfile.keystore
-        imagePullPolicy: IfNotPresent # Or Always, depending on your setup
-        volumeMounts:
-        - name: workdir # Mounts the shared volume
-          mountPath: /app
+      #initContainers:
+      #- name: cert-setup-init
+      # image: keystore-image:latest # This image needs to be built from Dockerfile.keystore
+      #  imagePullPolicy: IfNotPresent # Or Always, depending on your setup
+      #  volumeMounts:
+      #  - name: workdir # Mounts the shared volume
+      #    mountPath: /app
         # env: # Pass environment variables to the init container
         # - name: LDAP_SERVER
         #   value: "ldaps.lisd.net" # Replace with your actual LDAP server if different
@@ -77,12 +77,12 @@ spec:
           volumeMounts:
             - name: scheduler-persistent-storage
               mountPath: /scheduler_files/
-            - name: workdir
-              mountPath: /app
+          #  - name: workdir
+          #    mountPath: /app
       volumes:
         - name: scheduler-persistent-storage
           persistentVolumeClaim:
             claimName: scheduler-pv-claim
-        - name: workdir
-          emptyDir: {}
+        #- name: workdir
+        #  emptyDir: {}
        
