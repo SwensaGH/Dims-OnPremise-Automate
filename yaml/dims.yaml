@@ -77,8 +77,12 @@ spec:
           volumeMounts:
             - name: scheduler-persistent-storage
               mountPath: /scheduler_files/
+            - name: workdir
+              mountPath: /app
       volumes:
         - name: scheduler-persistent-storage
           persistentVolumeClaim:
             claimName: scheduler-pv-claim
-
+        - name: workdir
+          emptyDir: {}
+       
