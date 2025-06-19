@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo "This is OnPremise server"
+echo "This is OnPremise server for a.sh script"
