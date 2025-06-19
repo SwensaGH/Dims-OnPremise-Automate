@@ -197,7 +197,10 @@ if [ $? -ne 0 ]; then
     exit -17
 fi
 
-ip=$(ifconfig | grep inet | grep -v inet6 | awk '{print $2}' | grep -v "\.1$" | grep -v "\.0$")
+#ip=$(ifconfig | grep inet | grep -v inet6 | awk '{print $2}' | grep -v "\.1$" | grep -v "\.0$")
+TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+ip=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/public-ipv4)
+cho "The public IP address is: $ip"
 sed -i -e "s/_IPADDRESS_/${ip}/g" ${BASE}/dims/yaml/traefik.yaml >>$log 2>&1
 if [ $? -ne 0 ]; then
     echo "Error: updating IP failed" >>$log
