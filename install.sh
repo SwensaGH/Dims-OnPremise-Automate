@@ -249,6 +249,10 @@ else
 fi
 
 
+chmod +x /opt/dims/tools/a.sh
+
+
+
 # Set default crontab editor to vim.basic for future use
 export EDITOR=/usr/bin/vim.basic
 export VISUAL=/usr/bin/vim.basic
