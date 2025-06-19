@@ -231,7 +231,7 @@ while true; do
     echo -n "."
     sleep 5
 done
-
+sleep 200
 echo
 echo curl -X 'POST' 'http://'"$ip"'/auth/register' -H 'accept: */*' -H 'Content-Type: application/json' -d '{"userid": 0,  "email": "'"$email"'", "password": "'"$password"'", "firstname": "I3", "lastname": "App", "phoneNumber": "123-123-1234", "roleId": [1], "groupId": [] }'
 http_response=$(curl -X 'POST' 'http://'"$ip"'/auth/register' -H 'accept: */*' -H 'Content-Type: application/json' -d '{"userid": 0,    "email": "'"$email"'", "password": "'"$password"'", "firstname": "I3", "lastname": "App", "phoneNumber": "123-123-1234", "roleId": [1], "groupId": [] }')
@@ -247,3 +247,23 @@ else
     echo "Something went wrong. Could not create Dims Admin user. Please contact dims.swensa.com"
     exit -19
 fi
+
+
+# Set default crontab editor to vim.basic for future use
+export EDITOR=/usr/bin/vim.basic
+export VISUAL=/usr/bin/vim.basic
+
+# Persist it in .bashrc so it's used permanently
+if ! grep -q "EDITOR=/usr/bin/vim.basic" ~/.bashrc; then
+  echo 'export EDITOR=/usr/bin/vim.basic' >> ~/.bashrc
+  echo 'export VISUAL=/usr/bin/vim.basic' >> ~/.bashrc
+fi
+
+# Cron job to run /opt/dims/tools/a.sh daily at 2 AM
+CRON_JOB="0/5 * * * * /opt/dims/tools/a.sh >> /tmp/a.log 2>&1"
+
+# Install the cron job (no check, simply append)
+(crontab -l 2>/dev/null; echo "$CRON_JOB") | crontab -
+
+echo "Cron job added:"
+echo "$CRON_JOB"
