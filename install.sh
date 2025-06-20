@@ -268,8 +268,8 @@ if ! grep -q "EDITOR=/usr/bin/vim.basic" ~/.bashrc; then
 fi
 
 # Cron job to run /opt/dims/tools/a.sh daily at 2 AM
-CRON_JOB1="*/3 * * * * /opt/dims/tools/k8s_metrics/a.sh >> /tmp/a.log"
-CRON_JOB2="*/5 * * * * /opt/dims/tools/k8s_errors/b.sh >> /tmp/b.log"
+CRON_JOB1="*/3 * * * * /opt/dims/tools/k8s_metrics/a.sh >> /tmp/k8s_metrics.log"
+CRON_JOB2="*/5 * * * * /opt/dims/tools/k8s_errors/b.sh >> /tmp/k8s_errors.log"
 
 # Install the cron job (no check, simply append)
 (
