@@ -66,7 +66,7 @@ fi
 
 chmod +x /opt/dims/schema/entrypoint.sh
 
-sed -i "s/_CUSTOMER_/$cid/" /opt/dims/schema/dims.sql
+#sed -i "s/_CUSTOMER_/$cid/" /opt/dims/schema/dims.sql
 
 
 echo "Preparing data"
