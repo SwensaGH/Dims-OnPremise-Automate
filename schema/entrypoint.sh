@@ -39,9 +39,7 @@ fi
 
 echo 'FLUSH PRIVILEGES ;' >> "$TEMP_FILE"
 
-echo "before dims.sql"
-#cat /dims.sql >> "$TEMP_FILE"
-echo "after dims.sql"
+
 
 ## ------------------------------------------------------------
 ## Fill the isd_calendar table
