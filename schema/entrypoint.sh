@@ -40,7 +40,7 @@ fi
 echo 'FLUSH PRIVILEGES ;' >> "$TEMP_FILE"
 
 echo "before dims.sql"
-cat /dims.sql >> "$TEMP_FILE"
+#cat /dims.sql >> "$TEMP_FILE"
 echo "after dims.sql"
 
 ## ------------------------------------------------------------
