@@ -142,7 +142,8 @@ sleep 60
 
 echo "getting latest version of DIMS"
 echo "------------------------------------------"
-dimsimage=`curl -s "https://hub.docker.com/v2/repositories/swensadocker/dims/tags" | jq -r '.results[].name' | grep "main" | sort |  tail -n 1`
+#dimsimage=`curl -s "https://hub.docker.com/v2/repositories/swensadocker/dims/tags" | jq -r '.results[].name' | grep "main" | sort |  tail -n 1`
+dimsimage=`curl -s "https://hub.docker.com/v2/repositories/swensadocker/dims/tags" | jq -r '.results[].name' | grep "dev" | sort | tail -n 1`
 sed -i -e "s/_DIMSIMAGE_/${dimsimage}/g" ${BASE}/dims/yaml/dims.yaml >>$log 2>&1
 if [ $? -ne 0 ]; then
    echo "Error: updating _DIMSIMAGE_ failed" >>$log
