@@ -15,7 +15,7 @@ rules:
 - apiGroups: ["networking.k8s.io"]  # Correct API group for ingress-related resources
   resources: ["ingresses"]
   verbs: ["create", "list", "watch"]
-- apiGroups: ["traefik.containo.us"]  # API group for traefik ingresses
+- apiGroups: ["traefik.io"]  # API group for traefik ingresses
   resources: ["ingressroutes"]
   verbs: ["patch", "get", "list", "watch", "create", "update", "delete"]
 - apiGroups: ["apps"]  # Apps API group for deployments
