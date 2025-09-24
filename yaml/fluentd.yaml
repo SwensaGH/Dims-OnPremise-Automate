@@ -1,0 +1,160 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: fluentd
+  namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: fluentd
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "namespaces"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: fluentd
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: fluentd
+subjects:
+  - kind: ServiceAccount
+    name: fluentd
+    namespace: default
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluentd-config
+  namespace: default
+data:
+  fluent.conf: |
+    <source>
+      @type tail
+      path /var/log/containers/*dims-deployment*.log
+      pos_file /var/log/fluentd/pos/dims.pos
+      tag dims
+      read_from_head false
+      format none
+    </source>
+
+    <source>
+      @type tail
+      path /var/log/containers/*mysql84*.log
+      pos_file /var/log/fluentd/pos/mysql.pos
+      tag mysql
+      read_from_head false
+      format none
+    </source>
+
+    <source>
+      @type tail
+      path /var/log/containers/*scheduler84-deployment*.log
+      pos_file /var/log/fluentd/pos/scheduler.pos
+      tag scheduler
+      read_from_head false
+      format none
+    </source>
+    
+    <filter **>
+       @type record_transformer
+       enable_ruby true
+       <record>
+         # Extract only the actual log message (after "stderr F" in Docker JSON)
+         message ${record["message"].sub(/.*stderr F /,'')}
+       </record>
+    </filter>
+    <match **>
+      @type file
+      path /var/log/fluentd/pod-logs/${tag}/${tag}-%Y%m%d
+      append true
+      #create_path true
+      # Only write the actual log text
+      format single_value
+      message_key message
+      <buffer tag,time>
+        @type file
+        path /var/log/fluentd/buffer/${tag}
+        timekey 86400        # 1 day rotation
+        timekey_wait 0m          # wait before finalizing the file
+        timekey_use_utc true
+        flush_mode interval
+        flush_interval 1s
+      </buffer>
+    </match>
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      name: fluentd
+  template:
+    metadata:
+      labels:
+        name: fluentd
+    spec:
+      serviceAccountName: fluentd
+      tolerations:
+        - operator: "Exists"
+      volumes:
+        - name: varlog
+          hostPath:
+            path: /var/log/containers
+        - name: varlogpods
+          hostPath:
+            path: /var/log/pods
+        - name: fluentd-logs
+          hostPath:
+            path: /var/log/fluentd
+        - name: config
+          configMap:
+            name: fluentd-config
+      containers:
+        - name: fluentd
+          image: swensadocker/fluentd-cri:1.0
+          command:
+            - "/bin/sh"
+            - "-c"
+            - |
+              while true; do
+                now=$(date +%H:%M)
+                if [ "$now" = "01:00" ]; then
+                  find /var/log/fluentd/pod-logs -type f -name "*.log" ! -newermt "$(date +%Y-%m-%d)" -exec gzip {} \;
+                  find /var/log/fluentd/pod-logs -type f -name "*.log.gz" -mtime +45 -exec rm -f {} \;
+                  sleep 3600
+                fi
+                sleep 60
+              done
+          resources:
+            limits:
+              memory: 500Mi
+              cpu: 500m
+            requests:
+              memory: 200Mi
+              cpu: 200m
+          volumeMounts:
+            - name: varlog
+              mountPath: /var/log/containers
+            - name: varlogpods
+              mountPath: /var/log/pods
+            - name: fluentd-logs
+              mountPath: /var/log/fluentd
+            - name: config
+              mountPath: /fluentd/etc
+          env:
+            - name: FLUENTD_ARGS
+              value: "-c /fluentd/etc/fluent.conf -v"
+          securityContext:
+            runAsUser: 0
+            runAsNonRoot: false
