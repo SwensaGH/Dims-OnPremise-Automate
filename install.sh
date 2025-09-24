@@ -191,6 +191,14 @@ if [ $? -ne 0 ]; then
     exit -16
 fi
 
+kubectl apply -f ${BASE}/dims/yaml/fluentd.yaml >>$log 2>&1
+if [ $? -ne 0 ]; then
+    echo "Error: Fluentd deployment failed" >>$log
+    echo $err
+    exit -20
+fi
+
+
 kubectl apply -f  https://raw.githubusercontent.com/traefik/traefik/v3.3/docs/content/reference/dynamic-configuration/kubernetes-crd-definition-v1.yml >>$log 2>&1
 if [ $? -ne 0 ]; then
     echo "Error: Traefik CRDs Failed" >>$log
@@ -217,7 +225,8 @@ echo "Waiting for services to come up"
 while true; do
     mysql=$(kubectl get pods 2>/dev/null | grep mysql | awk '{print $3}')
     dims=$(kubectl get pods 2>/dev/null | grep dims | awk '{print $3}')
-    if [ ! -z $mysql ] && [ ! -z $dims ] && [ ${mysql} == "Running" ] && [ ${dims} == "Running" ]; then
+    fluentd=$(kubectl get pods 2>/dev/null | grep fluentd | awk '{print $3}')
+    if [ ! -z $mysql ] && [ ! -z $dims ] && [ ! -z $fluentd ] && [ ${mysql} == "Running" ] && [ ${dims} == "Running" ] && [ ${fluentd} == "Running" ]; then
         break
     fi
     echo -n "."
