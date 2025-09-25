@@ -123,23 +123,10 @@ spec:
       containers:
         - name: fluentd
           image: swensadocker/fluentd-cri:1.0
-          command:
-            - "/bin/sh"
-            - "-c"
-            - |
-              while true; do
-                now=$(date +%H:%M)
-                if [ "$now" = "01:00" ]; then
-                  find /var/log/fluentd/pod-logs -type f -name "*.log" ! -newermt "$(date +%Y-%m-%d)" -exec gzip {} \;
-                  find /var/log/fluentd/pod-logs -type f -name "*.log.gz" -mtime +45 -exec rm -f {} \;
-                  sleep 3600
-                fi
-                sleep 60
-              done
           resources:
             limits:
-              memory: 500Mi
-              cpu: 500m
+              memory: 100Mi
+              cpu: 50m
             requests:
               memory: 200Mi
               cpu: 200m
