@@ -31,11 +31,11 @@ spec:
           name: scheduler
           resources:
             requests:
-              memory: "2Gi"
-              cpu: "500m"
+              memory: "500Mi"
+              cpu: "250m"
             limits:
-              memory: "4Gi"
-              cpu: "1000m"
+              memory: "1Gi"
+              cpu: "500m"
           env:
             - name: DB_HOST
               value: mysql
