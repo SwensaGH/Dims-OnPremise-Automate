@@ -298,3 +298,17 @@ echo "$CRON_JOB1"
 echo "$CRON_JOB2"
 echo "$CRON_JOB3"
 echo "$CRON_JOB4"
+
+## ------------------------------------------------------------
+## Final step: Update Customer Code in project_settings
+## ------------------------------------------------------------
+if [ -n "$CUSTOMER_CODE" ]; then
+    echo "Updating CUSTOMER_CODE in project_settings..."
+    # Use mysql client inside the MySQL pod (no password needed inside pod)
+    kubectl exec -i $(kubectl get pods -l app=mysql -o jsonpath='{.items[0].metadata.name}') -- mysql -uroot -e \
+    "INSERT INTO project_settings (id, settings_key, value, jsondata, image_data) VALUES (11, 'Customer', '${CUSTOMER_CODE}', NULL, NULL) ON DUPLICATE KEY UPDATE value='${CUSTOMER_CODE}';"
+    echo "Customer code '${CUSTOMER_CODE}' updated in project_settings"
+else
+    echo "WARNING: CUSTOMER_CODE not set, skipping customer update."
+fi
+
