@@ -16,6 +16,8 @@ while true; do
     fi
     echo "Customer id don't match."
 done
+export CUSTOMER_CODE="$cid"
+echo "Customer code set as: $CUSTOMER_CODE"
 
 echo "------------------------------------------"
 echo "Setting up DIMS. Please wait.."
