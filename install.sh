@@ -221,6 +221,33 @@ fi
 sleep 20
 kubectl apply -f ${BASE}/dims/yaml/traefik.yaml >>$log 2>&1
 
+#--------------------------------------------------- 
+echo "Update Customer Code in project_settings" 
+#--------------------------------------------------- 
+
+cd /opt/dims/yaml/ || exit 1
+
+# Get MySQL root password from mysql.yaml
+MYSQL_ROOT_PASSWORD=$(grep -A1 "name: MYSQL_ROOT_PASSWORD" mysql.yaml | grep value | awk '{print $2}')
+
+# Ensure CUSTOMER_CODE is set
+if [ -z "$CUSTOMER_CODE" ]; then
+    echo "ERROR: CUSTOMER_CODE is not set. Skipping customer update."
+    exit 1
+fi
+
+# Get MySQL pod name
+MYSQL_POD=$(kubectl get pods -l app=mysql -o jsonpath='{.items[0].metadata.name}')
+
+# Update project_settings table inside dimsdb
+kubectl exec -i "$MYSQL_POD" -- mysql -uroot -p"$MYSQL_ROOT_PASSWORD" dimsdb -e "\
+INSERT INTO project_settings (id, settings_key, value, jsondata, image_data) \
+VALUES (11, 'Customer', '${CUSTOMER_CODE}', NULL, NULL) \
+ON DUPLICATE KEY UPDATE value='${CUSTOMER_CODE}';"
+
+echo "Customer code '${CUSTOMER_CODE}' updated in project_settings"
+
+
 #---------------------------------------------------
 echo "Waiting for services to come up"
 #---------------------------------------------------
@@ -299,16 +326,5 @@ echo "$CRON_JOB2"
 echo "$CRON_JOB3"
 echo "$CRON_JOB4"
 
-## ------------------------------------------------------------
-## Final step: Update Customer Code in project_settings
-## ------------------------------------------------------------
-if [ -n "$CUSTOMER_CODE" ]; then
-    echo "Updating CUSTOMER_CODE in project_settings..."
-    # Use mysql client inside the MySQL pod (no password needed inside pod)
-    kubectl exec -i $(kubectl get pods -l app=mysql -o jsonpath='{.items[0].metadata.name}') -- mysql -uroot -e \
-    "INSERT INTO project_settings (id, settings_key, value, jsondata, image_data) VALUES (11, 'Customer', '${CUSTOMER_CODE}', NULL, NULL) ON DUPLICATE KEY UPDATE value='${CUSTOMER_CODE}';"
-    echo "Customer code '${CUSTOMER_CODE}' updated in project_settings"
-else
-    echo "WARNING: CUSTOMER_CODE not set, skipping customer update."
-fi
+
 
