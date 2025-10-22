@@ -37,10 +37,6 @@ echo "GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' ;" >> "$TEMP_FILE"
 fi
 fi
 
-if [ -n "$CUSTOMER_CODE" ]; then
-  echo "INSERT INTO \`project_settings\` (\`id\`, \`settings_key\`, \`value\`, \`jsondata\`, \`image_data\`) VALUES (11, 'Customer', '${CUSTOMER_CODE}', NULL, NULL);" >> "$TEMP_FILE"
-fi
-
 echo 'FLUSH PRIVILEGES ;' >> "$TEMP_FILE"
 
 
