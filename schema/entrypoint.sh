@@ -37,13 +37,8 @@ echo "GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' ;" >> "$TEMP_FILE"
 fi
 fi
 
-# ---- Add CUSTOMER_CODE here ----
 if [ -n "$CUSTOMER_CODE" ]; then
-  echo "INSERT INTO \`project_settings\` (\`id\`, \`settings_key\`, \`value\`, \`jsondata\`, \`image_data\`) VALUES" >> "$TEMP_FILE"
-  echo "(11, 'Customer', '${CUSTOMER_CODE}', NULL, NULL);" >> "$TEMP_FILE"
-  echo "Customer code '${CUSTOMER_CODE}' inserted into project_settings"
-else
-  echo "WARNING: CUSTOMER_CODE not set, skipping customer insert."
+  echo "INSERT INTO \`project_settings\` (\`id\`, \`settings_key\`, \`value\`, \`jsondata\`, \`image_data\`) VALUES (11, 'Customer', '${CUSTOMER_CODE}', NULL, NULL);" >> "$TEMP_FILE"
 fi
 
 echo 'FLUSH PRIVILEGES ;' >> "$TEMP_FILE"
