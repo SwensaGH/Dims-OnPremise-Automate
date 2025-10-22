@@ -306,25 +306,29 @@ if ! grep -q "EDITOR=/usr/bin/vim.basic" ~/.bashrc; then
   echo 'export VISUAL=/usr/bin/vim.basic' >> ~/.bashrc
 fi
 
-# Cron job to run /opt/dims/tools/a.sh daily at 2 AM
-CRON_JOB1="*/3 * * * * /opt/dims/tools/k8s_metrics/a.sh >> /tmp/k8s_metrics.log"
-CRON_JOB2="*/5 * * * * /opt/dims/tools/k8s_errors/b.sh >> /tmp/k8s_errors.log"
-CRON_JOB3="05 12 * * * /opt/dims/scripts/i3_cleanup.sh >> /tmp/i3_cleanup.log 2>&1"
-CRON_JOB4="30 05 * * * /opt/dims/scripts/dimsdb_backup.sh  >> /tmp/dimsdb_backup.log 2>&1"
-# Install the cron job (no check, simply append)
-(
-  crontab -u root -l 2>/dev/null
-  echo "$CRON_JOB1"
-  echo "$CRON_JOB2"
-  echo "$CRON_JOB3"
-  echo "$CRON_JOB4"
-) | crontab -u root -
+CRON_JOBS=(
+"*/3 * * * * /opt/dims/tools/k8s_metrics/a.sh >> /tmp/k8s_metrics.log"
+"*/5 * * * * /opt/dims/tools/k8s_errors/b.sh >> /tmp/k8s_errors.log"
+"05 12 * * * /opt/dims/scripts/i3_cleanup.sh >> /tmp/i3_cleanup.log 2>&1"
+"30 05 * * * /opt/dims/scripts/dimsdb_backup.sh >> /tmp/dimsdb_backup.log 2>&1"
+)
 
-echo "Cron job added:"
-echo "$CRON_JOB1"
-echo "$CRON_JOB2"
-echo "$CRON_JOB3"
-echo "$CRON_JOB4"
+# Get current root crontab or create empty string if none
+CURRENT_CRON=$(crontab -u root -l 2>/dev/null || echo "")
+
+for JOB in "${CRON_JOBS[@]}"; do
+    # Add the job only if it does not exist already
+    if ! echo "$CURRENT_CRON" | grep -Fq "$JOB"; then
+        CURRENT_CRON+=$'\n'"$JOB"
+        echo "Added cron job: $JOB"
+    else
+        echo "Cron job already exists: $JOB"
+    fi
+done
+
+# Apply updated crontab
+echo "$CURRENT_CRON" | crontab -u root -
+
 
 
 
