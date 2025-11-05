@@ -69,7 +69,7 @@ fi
 # Step 4a: Compress .log files in subdirectories if not already compressed
 echo "Compressing .log files in $LOG_DIR subdirectories..."
 if [[ -d "$LOG_DIR" ]]; then
-  for TARGET_DIR in "$LOG_DIR"/dims* "$LOG_DIR"/scheduler* "$LOG_DIR"/mysql*; do
+  for TARGET_DIR in "$LOG_DIR"/dims* "$LOG_DIR"/scheduler* "$LOG_DIR"/mysql* "$LOG_DIR"/inventory*; do
     if [[ -d "$TARGET_DIR" ]]; then
       find "$TARGET_DIR" -type f -name '*.log' -mtime +0 -exec bash -c '
         file="$1"
