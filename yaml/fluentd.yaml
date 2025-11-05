@@ -38,7 +38,7 @@ data:
   fluent.conf: |
     <source>
       @type tail
-      path /var/log/containers/*dims-deployment*.log
+      path /var/log/containers/*dims*.log
       pos_file /var/log/fluentd/pos/dims.pos
       tag dims
       read_from_head false
@@ -47,7 +47,7 @@ data:
 
     <source>
       @type tail
-      path /var/log/containers/*mysql84*.log
+      path /var/log/containers/*mysql*.log
       pos_file /var/log/fluentd/pos/mysql.pos
       tag mysql
       read_from_head false
@@ -56,13 +56,21 @@ data:
 
     <source>
       @type tail
-      path /var/log/containers/*scheduler84-deployment*.log
+      path /var/log/containers/*scheduler*.log
       pos_file /var/log/fluentd/pos/scheduler.pos
       tag scheduler
       read_from_head false
       format none
     </source>
-    
+
+    <source>
+       @type tail
+       path /var/log/containers/*inventory*.log
+       pos_file /var/log/fluentd/pos/inventory.pos
+       tag inventory
+       read_from_head false
+       format none
+    </source>
     <filter **>
        @type record_transformer
        enable_ruby true
@@ -124,12 +132,13 @@ spec:
         - name: fluentd
           image: swensadocker/fluentd-cri:1.0
           resources:
-            limits:
-              memory: 200Mi
-              cpu: 200m
             requests:
               memory: 100Mi
               cpu: 50m
+            limits:
+              memory: 200Mi
+              cpu: 200m
+
           volumeMounts:
             - name: varlog
               mountPath: /var/log/containers
