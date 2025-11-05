@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# i3_cleanup.sh - Compress uncompressed files in selected directories and clean up old backups
+#i3_cleanup.sh - Compress uncompressed files in selected directories and clean up old backups
 
 # Set base directory
 BASE_DIR="/opt/dims/scheduler_backup"
@@ -87,7 +87,7 @@ fi
 # Step 4b: Delete compressed .log.gz files older than 30 days in subdirectories
 echo "Removing .log.gz files older than 30 days from $LOG_DIR subdirectories..."
 if [[ -d "$LOG_DIR" ]]; then
-  for TARGET_DIR in "$LOG_DIR"/dims* "$LOG_DIR"/scheduler* "$LOG_DIR"/mysql*; do
+  for TARGET_DIR in "$LOG_DIR"/dims* "$LOG_DIR"/scheduler* "$LOG_DIR"/mysql* "$LOG_DIR"/inventory*; do
     if [[ -d "$TARGET_DIR" ]]; then
       find "$TARGET_DIR" -type f -name '*.log.gz' -mtime +30 -exec rm -v {} \;
     fi
