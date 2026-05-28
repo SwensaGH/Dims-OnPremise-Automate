@@ -84,9 +84,14 @@ fi
 
 
 schimage=`curl -s "https://hub.docker.com/v2/repositories/swensadocker/dims-scheduler-dev/tags" | jq -r '.results[].name' |  grep -E '\-[0-9]+$' | sort |  tail -n 1`
-sed -i -e "s/_DIMSIMAGE_/${schimage}/g" ${BASE}/dims/yaml/scheduler.yaml >>$log 2>&1
+sed -i \
+  -e "s|_DIMSIMAGE_|${schimage}|g" \
+  -e "s|_URL_|${url}|g" \
+  -e "s|_CLIENT_ID_|${clientId}|g" \
+  -e "s|_SECRET_|${clientSecret}|g" \
+  ${BASE}/dims/yaml/agent_scheduler.yaml >>$log 2>&1
 if [ $? -ne 0 ]; then
-   echo "Error: updating Scheduler Image failed" >>$log
+   echo "Error: updating Agent Scheduler Image failed" >>$log
    echo $err
    exit -15
 fi
