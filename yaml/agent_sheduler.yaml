@@ -37,16 +37,14 @@ spec:
               memory: "1Gi"
               cpu: "500m"
           env:
-            - name: DB_HOST
-              value: mysql
-            - name: DB_PORT
-              value: '3306'    
-            - name: DB_NAME
-              value: dimsdb
-            - name: DB_USER
-              value: root
-            - name: DB_PASS
-              value: _GENERATE_PASSWORD_   
+            - name: URL
+              value: _URL_
+            - name: CLIENT_ID
+              value: _CLIENT_ID_    
+            - name: SECRET
+              value: _SECRET_
+            - name: Agent
+              value: true
             - name: BACKUP_CSV_PATH
               value: /backup/        
             - name: INTEGRATIONS
