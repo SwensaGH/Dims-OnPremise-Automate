@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: scheduler-service
+spec:
+  ports:
+    - port: 80
+      targetPort: 5000
+  selector:
+    app: scheduler
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scheduler-deployment
+spec:
+  selector:
+    matchLabels:
+      app: scheduler
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: scheduler
+    spec:
+      containers:
+        - image: swensadocker/dims-scheduler-dev:1.0.0-485
+          name: scheduler
+          resources:
+            requests:
+              memory: "500Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+          env:
+            - name: DB_HOST
+              value: mysql
+            - name: DB_PORT
+              value: '3306'    
+            - name: DB_NAME
+              value: dimsdb
+            - name: DB_USER
+              value: root
+            - name: DB_PASS
+              value: _GENERATE_PASSWORD_   
+            - name: BACKUP_CSV_PATH
+              value: /backup/        
+            - name: INTEGRATIONS
+              value: '01:00' 
+            
+          ports:
+            - containerPort: 5000
+              name: scheduler
+          volumeMounts:
+            - name: scheduler-persistent-storage
+              mountPath: /backup/
+      volumes:
+        - name: scheduler-persistent-storage
+          persistentVolumeClaim:
+            claimName: scheduler-pv-claim
+              
+           
+                   
