@@ -91,7 +91,7 @@ if [ $? -ne 0 ]; then
    exit -15
 fi
 
-kubectl apply -f ${BASE}/dims/yaml/scheduler.yaml >>$log 2>&1
+kubectl apply -f ${BASE}/dims/yaml/agent_scheduler.yaml >>$log 2>&1
 if [ $? -ne 0 ]; then
     echo "Error: dims.yaml failed" >>$log
     echo $err
