@@ -43,7 +43,7 @@ spec:
               value: _CLIENT_ID_    
             - name: SECRET
               value: _SECRET_
-            - name: Agent
+            - name: AGENT
               value: "true"
             - name: BACKUP_CSV_PATH
               value: /backup/        
