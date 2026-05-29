@@ -44,7 +44,7 @@ spec:
             - name: SECRET
               value: _SECRET_
             - name: Agent
-              value: true
+              value: "true"
             - name: BACKUP_CSV_PATH
               value: /backup/        
             - name: INTEGRATIONS
