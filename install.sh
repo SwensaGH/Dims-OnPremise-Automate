@@ -5,6 +5,28 @@ log="/tmp/k3s_setup.log"
 >$log
 
 BASE=/opt
+#---------------------------------------------------
+# Install required packages if missing
+#---------------------------------------------------
+echo "Checking required packages..."
+
+export DEBIAN_FRONTEND=noninteractive
+
+apt-get update >>$log 2>&1
+
+PACKAGES=(curl git jq net-tools)
+
+for pkg in "${PACKAGES[@]}"; do
+    if ! dpkg -s "$pkg" >/dev/null 2>&1; then
+        echo "Installing $pkg..."
+        apt-get install -y "$pkg" >>$log 2>&1
+        if [ $? -ne 0 ]; then
+            echo "Error: installing $pkg failed" >>$log
+            echo "$err"
+            exit -100
+        fi
+    fi
+done
 
 while true; do
     echo -n "Enter customer id : "
